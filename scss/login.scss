@@ -1,0 +1,597 @@
+@charset 'utf-8';
+@import "./variable.scss";
+@import "./sprite.scss";
+@font-face {font-family: 'Noto Sans KR Light';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');}
+
+// Mixin
+@mixin bg($filename, $option, $color: transparent) {
+    background: $color url(../img/login/#{$filename}) $option;
+}
+
+
+//login main reset
+button {
+    margin:0;
+    padding:0;
+    border:0 none;
+    background-color:transparent;
+}
+button::-moz-focus-inner {
+    padding:0;
+    border:0;
+}
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+    margin:0;
+    padding:0;
+    border: 1px solid rgba(255, 255, 255, .2);
+    background-color:transparent;
+    color: rgba(255, 255, 255, .5);
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+input:focus {
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+
+//channel view
+.cont1, .cont2 {
+    display: none;
+    &.on {
+        display: block;
+    }
+}
+
+
+//layer background__dim
+.dim{ 
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .5);
+    z-index: 1;
+}
+
+#login_wrap {
+    position: relative;
+    width: 300px;
+    height: 690px;
+    padding: 0 50px;
+    @include bg('bg.jpg', no-repeat 0 0);
+    color: #fff;
+    .header {
+        padding-top: 60px;
+        button {
+            position: absolute;
+            top: 13px;
+            cursor: pointer;
+            text-indent: -9999px;
+            opacity: .5;
+            &.btn_hidden {
+                right: 35px;
+                @include sprite($ico-small);
+            }
+            &.btn_close {
+                right: 13px;
+                @include sprite($ico-close);
+            }
+            &:hover {
+                opacity: 1;
+            }
+        }
+        h2 {
+            display: block;
+            margin: 0 auto;
+            text-indent: -9999px;
+            @include sprite($logo-login);
+        }
+    }
+
+    // 190808 추가
+    // loading
+    .loading {        
+        text-align: center;
+        margin-top: 50% ;
+    }
+
+    // cont1, cont2 all
+    .cont1, .cont2 {
+        position: relative;
+        height: 430px;
+        min-height: 430px;
+    }
+    .sns_area {
+        ul {
+            text-align: center;
+            li {
+                display: inline-block;
+                text-indent: -9999px;
+                margin-left: 22px;
+                &:first-child {
+                    margin-left: 0;
+                }
+                a {
+                    display: block;
+                }
+            }
+        }
+        .ico_ff14 {
+            @include sprite($ico-ff14-off);
+            &:hover {
+                @include sprite($ico-ff14-on);
+            }
+        }
+        .ico_inst {
+            @include sprite($ico-inst-off);
+            &:hover {
+                @include sprite($ico-inst-on);
+            }
+        }
+        .ico_fb {
+            @include sprite($ico-fb-off);
+            &:hover {
+                @include sprite($ico-fb-on);
+            }
+        }
+        .ico_yt {
+            @include sprite($ico-yt-off);
+            &:hover {
+                @include sprite($ico-yt-on);
+            }
+        }
+        .ico_tw {
+            @include sprite($ico-tw-off);
+            &:hover {
+                @include sprite($ico-tw-on);
+            }
+        }
+        .ico_na {
+            @include sprite($ico-na-off);
+            &:hover {
+                @include sprite($ico-na-on);
+            }
+        }
+    }
+    .login {
+        position:relative;
+        margin: 29px 0 10px;
+        .logoBox {
+            display: block;
+            height: 30px;
+            padding: 10px 0;
+            cursor: pointer;
+        }
+        i {
+            position: absolute;
+            top: 23px;
+            right: 20px; 
+            @include sprite($ico-unfold);
+            &.on {
+                @include sprite($ico-fold);
+            }
+        }
+        .dc_select {
+            display: none;
+            position:relative;
+            width: 58px;
+            height: 28px;
+            margin-bottom: 10px;
+            padding: 0 10px;
+            border: 1px solid #434343;
+            background: #1b1b1b;
+            cursor: pointer;
+            span {
+                display: inline-block;
+                line-height: 28px;
+            }
+            i {
+                top: 10px;
+                right: 10px;
+                z-index: 4;
+            }
+            .dc_txt {
+                display: none;
+                position: absolute;
+                top: -1px;
+                left: -1px;
+                z-index: 3;
+                li {
+                    width: 58px;
+                    height: 28px;
+                    padding: 0 10px;
+                    border: 1px solid #434343;
+                    background: #1b1b1b;
+                    &:last-child {
+                        border-top: 0;
+                    }
+                    i {
+                        @include sprite($ico-fold);
+                    }
+                }
+            }
+        }
+        .ch_select {
+            position:relative;
+            width: 300px;
+            height: 50px;
+            line-height: 50px;
+            background:rgba(255, 255, 255, .2);
+            color: #fff;
+            text-align: center;
+            z-index: 2;
+        }
+        .ch_logo {
+            display: block;
+            margin: 0 auto;
+            text-indent: -9999px;
+            &.none {text-indent: 0; line-height: 30px;}
+            &.ac {@include sprite($ico-actoz);}
+            &.na {@include sprite($ico-naver);}
+            &.nx {@include sprite($ico-nexon);}
+            &.ka {@include sprite($ico-kakao);}
+        }
+        .ch_sBox {
+            display: none;
+            position:absolute;
+            top: 51px;
+            z-index: 2;
+            li {
+                width: 300px;
+                margin-bottom: 1px;
+                background-color:#242424;
+                &:hover{
+                    background-color: #3c3c3c;
+                }
+            }
+        }
+    }
+
+    // date center ver css
+    .header.dc {
+        padding-top: 48px;
+    }
+    .login.dc {
+        margin-top: 1px;
+        .ch_sBox {
+            top: 91px;
+        }
+        .dc_select {
+            display: block;
+        }
+    }
+
+    // cont1 area
+    .cont1 {
+        .login_area {
+            position: relative; //191106 추가
+            padding-bottom: 12px;
+            input {
+                width: 100%;
+                height: 40px;
+                margin-bottom: 5px;
+                text-indent: 10px;
+                font-size: 15px;
+            }
+            //191106 추가
+            .pwtext {
+                display: none;
+                position: absolute;
+                right: 0;
+                bottom: 5px;
+                height: 30px;
+                line-height: 30px;
+                font-size: 13px;
+                color: #e9415d;
+            }
+            .id_chk {
+                input[type="checkbox"] {
+                    display: none;
+                    margin-right: 7px;
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                }
+                label {
+                    color: rgba(255, 255, 255, .5);
+                    &:before {
+                        content: "";
+                        display: inline-block;
+                        width: 14px;
+                        margin-right: 7px;
+                        vertical-align: middle;
+                        @include sprite($chk-off);
+                    }
+                }
+                input[type="checkbox"]:checked + label:before{
+                    @include sprite($chk-on);
+                }
+            }
+        }
+        .captcha {
+            display: block;
+            height: 117px;
+            text-align: center;
+            input {
+                width: 100%;
+                height: 40px;
+                margin-top: 5px;
+                border: 0;
+                text-indent: 10px;
+                font-size: 15px;
+                background: rgba(255, 255, 255, .2);
+            }
+            .BDC_ReloadIcon:hover {
+                @include sprite($btn-refresh-on);
+            }
+            .BDC_SoundIcon:hover {
+                @include sprite($btn-sound-on);
+            }
+            .BDC_CaptchaDiv {
+                padding: 15px;
+                border: 1px solid rgba(255,255,255,.2);
+            }
+            .BDC_CaptchaIconsDiv, .BDC_CaptchaImageDiv {
+                display: inline-block;
+            }
+            .BDC_CaptchaIconsDiv {
+                .BDC_ReloadLink {
+                    margin: 0 4px;
+                    float: left;
+                }
+                .BDC_Placeholder {
+                    display: none;
+                }
+                .BDC_SoundLink {
+                    display: inline-block;
+                }
+            }
+        }
+        .alert_txt {
+            margin: 15px 0 10px;
+            height: 56px;
+            p {
+                display: table-cell;
+                width: 300px;
+                height: 36px;
+                text-align: center;
+                font-size: 14px;
+                vertical-align: middle;
+                line-height: 18px;
+                color: #e9415d;
+                a{
+                    display: inline-block;
+                }
+            }
+        }
+        .btn_area {
+            // margin-bottom: 26px;
+            .btn_login {
+                width: 300px;
+                height: 52px;
+                text-indent: -9999px;
+                cursor: pointer;
+                @include sprite($btn-login-off);
+                &:hover {
+                    @include sprite($btn-login-on);
+                }
+            }
+            ul {
+                position: relative;
+                text-align: center;
+                margin-top: 8px;
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: 6px;
+                    left: 116px;
+                    width: 1px;
+                    height: 13px;
+                    border-right: 1px solid #fff;
+                    opacity: .5;
+                }
+                li {
+                    display: inline-block;
+                    opacity: .5;
+                    &:hover {
+                        opacity: 1;
+                    }
+                    &:first-child {
+                        margin-right: 25px;
+                    }
+                    a {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+
+    // cont2 area
+    .cont2 {
+        p {
+            font-size: 15px;
+            padding-top: 21px;
+            line-height: 18px;
+        }
+        .uotp_area {
+            margin-top: 10px;
+            input {
+                width: 191px; //191106 width -1px
+                height: 40px;
+                margin-right: 5px;
+                text-indent: 10px;
+                font-size: 15px;
+            }
+            .btn_uotp {
+                cursor: pointer;
+                text-indent: -9999px;
+                @include sprite($btn-ok-off);
+                &:hover {
+                    @include sprite($btn-ok-on);
+                }
+            }
+        }
+        .alert_txt {
+            p {
+                text-align: center;
+                font-size: 14px;
+                padding-top: 16px;
+                line-height: 18px;
+                color: #e9415d;
+            }
+        }
+        .btn_area {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin-bottom: 26px;
+            ul {
+                text-align: center;
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: 6px;
+                    left: 128px;
+                    width: 1px;
+                    height: 13px;
+                    border-right: 1px solid #fff;
+                    opacity: .5;
+                }
+                li {
+                    display: inline-block;
+                    opacity: .5;
+                    &:hover {
+                        opacity: 1;
+                    }
+                    &:first-child {
+                        margin-right: 25px;
+                    }
+                    a {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+
+    //channel css
+    //naverArea , nexonArea
+    .naverArea .cont2{
+        .btn_area ul {
+            &::before {
+                left: 142px;
+            }
+        }
+    }
+    .naverArea, .nexonArea {
+        .login_area {
+            padding-bottom: 149px;
+        }
+    }
+    //kakaoArea
+    .kakaoArea {
+        .login_area {
+            text-align: center;
+            margin-bottom: 225px;
+            padding: 18px 0;
+            background: rgba(255, 255, 255, .2);
+            p {
+                line-height: 20px;
+                &:first-child {
+                    color: #fcd41c;
+                }
+            }
+        }
+    }
+
+    //popup
+    .layer_pop {
+        // display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -46%);
+        width: 358px;
+        height: 470px;
+        background: #313131;
+        border-radius: 10px;
+        text-align: center;
+        z-index: 999;
+        overflow: hidden;
+        .text-wrap {
+            .icon-exclamation {
+                @include sprite($icon-exclamation);
+                text-align: center;
+                margin: 27px auto 15px;
+            }
+            .title {
+                display: block;
+                margin: 12px 0;
+                color: #fff;
+            }
+            .text {
+                padding: 0 20px;
+                font-size: 13px;
+                line-height: 120%;
+                color: #a0a0a0;
+                .table {
+                    margin: 13px 0 0;
+                    text-align: left;
+                    li {
+                        border: 1px solid #000;
+                        border-top: 0;
+                        &:first-child {
+                            border-top: 1px solid #000;
+                            em {
+                                height: 38px;
+                                line-height: 38px;
+                            }
+                        }
+                        em {
+                            display: inline-block;
+                            width:  70px;
+                            padding: 10px;
+                            background: #000;
+                            font-size: 13px;
+                        }
+                        span {
+                            display: inline-block;
+                            padding: 10px;
+                            font-size: 13px;
+                        }
+                    }
+                }
+            }
+        }
+        .closeArea {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 19px 0;
+            background: #1b1b1b;
+            text-align:center;
+            button {
+                padding: 8px 15px;
+                border-radius: 5px;
+                color: #fff;
+            }
+            .blue-bg {
+                background: #486ab4;
+                &:hover {
+                    background: #5177c7;
+                }
+            }
+        }
+    }
+}

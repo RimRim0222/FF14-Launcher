@@ -1,0 +1,1080 @@
+<html>
+    <head>
+        <title>2019 FINAL FANTASY XIV LAUNCHER</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />          
+        <link rel="stylesheet" type="text/css" href="../../css/launcher.css"  />
+        <link rel="stylesheet" type="text/css" href="../../css/jquery.mCustomScrollbar.css" />
+        <script type="text/javascript" src="../../js/lib/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="../../js/lib/jquery.easing.min.js"></script>
+        <script type="text/javascript" src="../../js/launcher.js"></script>
+        <script type="text/javascript" src="../../js/lib/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script type="text/javascript" src="../../js/lib/masonry.pkgd.min.js"></script>
+    </head>
+    <body>
+        <!--작업 가이드. 실 작업시 삭제해주세요-->
+        <nav style="position: fixed; left: 0; bottom: 0; z-index: 30; background: salmon;">
+            <div onclick="$('.user').removeAttr('id')">일반 접속</div>
+            <div onclick="$('.user').attr('id', 'pcroom')">피씨방 접속</div>
+            <div class="modalController" modal-control="open" modal-target="#modal-check">점검 팝업</div>
+            <div class="modalController" modal-control="open" modal-target="#modal-notice">공지 팝업</div>
+            <div class="modalController" modal-control="open" modal-target="#modal-notice-text">공지 팝업(텍스트만)</div>
+            <div class="modalController" modal-control="open" modal-target="#modal-install">설치 팝업</div>
+            <div class="modalController" modal-control="open" modal-target="#modal-lv35">레벨35 팝업</div>
+            <div class="modalController" modal-control="open" modal-target="#modal-closed">종료확인 팝업</div>
+            <div class="modalController" modal-control="open" modal-target="#modal-set">설정 팝업</div>
+            <div class="modalController" onclick="$('#blocks').fadeOut();$('#content-loading').fadeIn();$('#content-fail').fadeOut();">데이터 로딩중</div>
+            <div class="modalController" onclick="$('#blocks').fadeOut();$('#content-loading').fadeOut();$('#content-fail').fadeIn();">데이터 로딩 실패</div>
+            <div class="modalController" onclick="$('#blocks').fadeIn();$('#content-loading').fadeOut();$('#content-fail').fadeOut(); afterLoad();">블록형 리스트 보기</div>
+            <div class="" onclick="$('.modal').fadeOut();$('.dimmed').fadeOut();">[[모든 팝업 닫기]]</div>
+            <div class="" onclick="$('nav').fadeOut();">[[가이드 닫기]]</div>
+        </nav>
+        <div id="launcher_wrap">
+            <!--최상단-->
+            <div class="top_bar">
+                <div class="left"><span>FINAL FANTASY XIV</span></div>
+                <ul class="right">
+                    <li class="setting modalController" modal-control="open" modal-target="#modal-set"><span>설정</span></li>
+                    <li class="minimum"><span>최소화</span></li>
+                    <!--2019.09.30 수정-->
+                    <li class="maximum" onclick="toggle_maximum(this);"><span>최대화</span></li>
+                    <!--//2019.09.30 수정-->
+                    <li class="close modalController" modal-control="open" modal-target="#modal-closed"><span>닫기</span></li>
+                </ul>
+            </div>
+            <!--//최상단-->
+
+            <!--LNB-->
+            <div id="lnb">
+                <!--유저 정보-->
+                <div class="user"><!-- pc방 접속일 경우 id="pcroom" 붙이기 -->
+                    <div class="photo">
+                        <div class="fire_on pc"></div>
+                        <div class="fire_off not-pc"></div>
+                        <!--2019.09.30 수정: 캐릭터 이미지
+                        char_n0: 등록된 이미지 없음. 
+                        char_n1 ~ char_n24까지 공홈과 동일함.
+                        -->
+                        <div class="face char_n28"></div>
+                        <!--//2019.09.30 수정: 캐릭터 이미지-->
+                        <span class="icon icon-pc pc">PC방</span>
+                    </div>
+                    <div class="info wide">
+                        <span class="name">123456789012</span>&nbsp;님, <br />환영합니다.
+                    </div>
+                    <!-- 2019.10.17. QA 개선-->
+                    <div class="logout" title="로그아웃">로그아웃<i class="icon icon-logout"></i></div>
+                    <!-- //2019.10.17. QA 개선-->
+                </div>
+                <!--//유저 정보-->
+                <!--Direct X 11-->
+                <div class="direct">
+                    <span class="wide">Direct X 11 MODE</span>
+                    <span class="narrow">DX 11</span>
+                    <!--2019.09.30 수정: DX11 비활성화 추가-->
+                    <div class="check_dx disabled">
+                        <label class="radio_dx" for="checkDX">
+                            <input type="checkbox" value="true" name="checkDX" id="checkDX" disabled>
+                            <i class="icon icon-btn-dx"></i>
+                        </label>
+                    </div>
+                    <!-- ↓DX11 기존 on/off
+                    <div class="check_dx">
+                        <label class="radio_dx" for="checkDX">
+                            <input type="checkbox" value="true" name="checkDX" id="checkDX" checked>
+                            <i class="icon icon-btn-dx"></i>
+                        </label>
+                    </div>
+                    -->
+                    <!--//2019.09.30 수정: DX11 비활성화 추가-->
+                </div>
+                <!--//Direct X 11-->
+                <!--나의 현황-->
+                <ul class="list top">
+                    <li>
+                        <a href="https://www.ff14.co.kr/shop" target="_blank">
+                            <i class="icon icon-crystal"></i>
+                            <div class="text common">
+                                <span class="left color1">크리스탈</span>
+                                <span class="right">9,999,999</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.ff14.co.kr/shop/myShop/MyList?Type=C" target="_blank">
+                            <i class="icon icon-fixed"></i>
+                            <div class="text common">
+                                <span class="left color1">정액제</span>
+                                <span class="right">30일 1시간 2분</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.ff14.co.kr/shop/myShop/MyList?Type=C" target="_blank">
+                            <i class="icon icon-regular"></i>
+                            <div class="text common">
+                                <span class="left color1">정량제</span>
+                                <span class="right">123시간 5분</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="active"><!--아이콘에 빨간 점 표시: 클래스 active-->
+                        <a href="https://www.ff14.co.kr/shop" target="_blank">
+                            <i class="icon icon-bulter"></i>
+                            <div class="text common">
+                                <span class="left">집사</span>
+                                <span class="right">1/7 명</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.ff14.co.kr/shop/coupon/coupon_sub1" target="_blank">
+                            <i class="icon icon-coupon"></i>
+                            <div class="text common">
+                                <span class="left">쿠폰</span>
+                                <span class="right">1개</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.ff14.co.kr/shop/storage/eventitem" target="_blank">
+                            <i class="icon icon-eveitem"></i>
+                            <div class="text common">
+                                <span class="left">이벤트 아이템</span>
+                                <span class="right">22개</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.ff14.co.kr/shop/storage/gift" target="_blank">
+                            <i class="icon icon-gift"></i>
+                            <div class="text common">
+                                <span class="left">선물함</span>
+                                <span class="right">2개</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.ff14.co.kr/shop/buy/Cart" target="_blank">
+                            <i class="icon icon-cart"></i>
+                            <div class="text common">
+                                <span class="left">장바구니</span>
+                                <span class="right">122개</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <!--//나의 현황-->
+                <!--pc방 혜택-->
+                <ul class="list pc fold">   
+                    <li style="height: 0; margin-top: 0;">
+                        <a href="https://www.ff14.co.kr/events/pub/landing" target="_blank">
+                            <i class="icon icon-gift"></i>
+                            <div class="text common">
+                                신규 모험가 혜택
+                            </div>
+                        </a>
+                    </li>   
+                    <li style="height: 0; margin-top: 0;">
+                        <a href="https://www.ff14.co.kr/events/Pub/Return" target="_blank">
+                            <i class="icon icon-gift"></i>
+                            <div class="text common">
+                                복귀 모험가 혜택
+                            </div>
+                        </a>
+                    </li>   
+                    <li style="height: 0; margin-top: 0;">
+                        <a href="https://www.ff14.co.kr/events/pub/invite" target="_blank">
+                            <i class="icon icon-gift"></i>
+                            <div class="text common">
+                                친구 초대 혜택
+                            </div>
+                        </a>
+                    </li>
+                    <li id="foldPc">
+                        <a href="https://www.ff14.co.kr/events/2017/pcroom" target="_blank">
+                            <i class="icon icon-gift"></i>
+                            <div class="text common">
+                                PC방 혜택
+                            </div>
+                        </a>
+                        <i class="icon icon-plus" id="pcAccodian"></i>
+                    </li>
+                </ul>
+                <!--//pc방 혜택-->                    
+                <!--하단 메뉴-->
+                <ul class="list bottom">
+                    <li>
+                        <a href="https://www.ff14.co.kr/events/pub/BeginnerGuide" target="_blank">
+                            <i class="icon icon-beginner"></i>
+                            <div class="text common">
+                                <span>초보자 길라잡이</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://guide.ff14.co.kr/" target="_blank">
+                            <i class="icon icon-official"></i>
+                            <div class="text common">
+                                <span>공식 가이드</span>
+                            </div>
+                        </a>                        
+                    </li>
+                    <li>
+                        <a href="https://www.ff14.co.kr/main" target="_blank">
+                            <i class="icon icon-ffweb"></i>
+                            <div class="text common">
+                                <span>공식 홈페이지 바로가기</span>    
+                            </div>
+                        </a>
+                    </li>
+                </ul>            
+                <!--//하단 메뉴-->
+                <!--SNS-->
+                <div class="sns_wrap">
+                    <ul class="sns">
+                        <li><a href="https://www.instagram.com/ffxiv_kr/" target="_blank"><i class="icon icon-insta"></i>Instargram</a></li>
+                        <li><a href="https://www.facebook.com/FINALFANTASYXIV.KOREA" target="_blank"><i class="icon icon-facebook"></i>Facebook</a></li>
+                        <li><a href="https://www.youtube.com/channel/UC3nvy3v0XICxexhfhjz1I9A" target="_blank"><i class="icon icon-youtube"></i>Youtube</a></li>
+                        <li><a href="https://twitter.com/FFXIV_KOREA" target="_blank"><i class="icon icon-twitter"></i>Twitter</a></li>
+                        <!-- 2019.10.17. QA 개선-->
+                        <li><a href="https://post.naver.com/ffxivkorea" target="_blank"><i class="icon icon-twitter"></i>Naverpost</a></li>
+                        <!-- //2019.10.17. QA 개선-->
+                    </ul>
+                </div>
+                <!--//SNS-->
+                <!--LNB 접기-->
+                <div class="btn_fold">
+                    <i class="icon icon-fold">접기</i>
+                    <i class="icon icon-unfold">펼치기</i>
+                </div>
+                <!--//LNB 접기-->
+            </div>
+            <!--//LNB-->            
+            <!--LNB: pc방 자동실행일 경우-->
+            <div id="lnb" class="pc_auto" style="display: none;">
+                <!--자동 패치-->
+                <div class="patch">
+                    <div class="icon icon-fire-on">
+                        <i class="icon icon-loading-02"></i>
+                    </div>
+                    <p class="white">PC방 자동 패치 <br />진행중입니다.</p>
+                    <p class="grey">패치가 완료되면 <br />자동으로 런처를 종료합니다.</p>
+                </div>
+                <!--//자동 패치-->
+                <!--pc방 혜택-->
+                <ul class="list pc fold">   
+                    <li style="height: 0; margin-top: 0;">
+                        <i class="icon icon-gift"></i>
+                        <div class="text common">
+                            신규 모험가 혜택
+                        </div>
+                    </li>   
+                    <li style="height: 0; margin-top: 0;">
+                        <i class="icon icon-gift"></i>
+                        <div class="text common">
+                            복귀 모험가 혜택
+                        </div>
+                    </li>   
+                    <li style="height: 0; margin-top: 0;">
+                        <i class="icon icon-gift"></i>
+                        <div class="text common">
+                            친구 초대 혜택
+                        </div>
+                    </li>
+                    <li id="foldPc">
+                        <i class="icon icon-gift"></i>
+                        <div class="text common">
+                            PC방 혜택
+                        </div>
+                        <i class="icon icon-plus"></i>
+                    </li>
+                </ul>
+                <!--//pc방 혜택-->                    
+                <!--하단 메뉴-->
+                <ul class="list bottom">
+                    <li>
+                        <a href="https://www.ff14.co.kr/events/pub/BeginnerGuide" target="_blank">
+                            <i class="icon icon-beginner"></i>
+                            <div class="text common">
+                                <span>초보자 가이드</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://guide.ff14.co.kr/" target="_blank">
+                            <i class="icon icon-official"></i>
+                            <div class="text common">
+                                <span>공식 가이드</span>
+                            </div>
+                        </a>                        
+                    </li>
+                    <li>
+                        <a href="https://www.ff14.co.kr/main" target="_blank">
+                            <i class="icon icon-ffweb"></i>
+                            <div class="text common">
+                                <span>공식홈페이지 바로가기</span>    
+                            </div>
+                        </a>
+                    </li>
+                </ul>            
+                <!--//하단 메뉴-->
+                <!--SNS-->
+                <div class="sns_wrap">
+                    <ul class="sns">
+                        <li><a href="https://www.instagram.com/ffxiv_kr/" target="_blank"><i class="icon icon-insta"></i>Instargram</a></li>
+                        <li><a href="https://www.facebook.com/FINALFANTASYXIV.KOREA" target="_blank"><i class="icon icon-facebook"></i>Facebook</a></li>
+                        <li><a href="https://www.youtube.com/channel/UC3nvy3v0XICxexhfhjz1I9A" target="_blank"><i class="icon icon-youtube"></i>Youtube</a></li>
+                        <li><a href="https://twitter.com/FFXIV_KOREA" target="_blank"><i class="icon icon-twitter"></i>Twitter</a></li>
+                    </ul>
+                </div>
+                <!--//SNS-->
+            </div>
+            <!--//LNB-->
+
+            <div id="content">
+                <!--상단 프로그레스 바 영역-->
+                <div class="progress_wrap">
+                    <ul class="menu">
+                        <li><a href="#" class="home">홈</a></li>
+                        <li><a href="https://www.ff14.co.kr/news/notice" target="_blank">새소식</a></li>
+                        <li><a href="https://www.ff14.co.kr/shop" target="_blank">크리스탈샵</a></li>
+                    </ul>
+                    <!--프로그레스 바-->
+                    <!--------- 필요한 바를 골라 쓰시고 작업시 ↓ 아래의 스타일을 삭제해주세요--------->
+                    <div class="progress" style="height: 50px; overflow-y: scroll;">
+                        <!--점검중-->
+                        <div class="bar_wrap">
+                            <div class="bar">
+                                <div class="gauge">
+                                    <div class="bg" id="checking" style="width: 100%"></div>
+                                    <p>점검중</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--//점검중-->
+                        <!--게임 시작-->
+                        <div class="bar_wrap">
+                            <div class="volume">
+                                <p class="grey">현재버전: 2019.04.03.0000.0000 (2019.04.03.0000.0000)</p>
+                                <p class="grey">최신버전: 2019.04.03.0000.0000 (2019.04.03.0000.0000)</p>
+                            </div>
+                            <div class="bar">
+                                <div class="gauge">
+                                    <div class="bg" id="start" style="width: 100%" button-option="click"></div><!--게임설치/업데이트 상태일 때: button-option="click"-->
+                                    <p>게임 시작</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--//게임 시작-->
+                        <!--업데이트 중지-->
+                        <div class="bar_wrap">
+                            <div class="volume">
+                                <p class="white">5.39 GB  / 19.58 GB</p>
+                                <p class="grey">다운로드 완료까지 약 7분 소요 (1/2)</p>
+                            </div>
+                            <div class="per">81%</div>
+                            <div class="bar">
+                                <div class="gauge">
+                                    <div class="bg" id="updating" style="width: 81%" button-option="stop"></div><!--정지 상태일 때: button-option="stop"-->
+                                    <p><i class="icon icon-ing"></i> 계속</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--//업데이트 중-->
+                        <!--업데이트 중-->
+                        <div class="bar_wrap">
+                            <div class="volume">
+                                <p class="white">5.39 GB  / 19.58 GB</p>
+                                <p class="grey">다운로드 완료까지 약 7분 소요 (1/2)</p>
+                            </div>
+                            <div class="per">81%</div>
+                            <div class="bar">
+                                <div class="gauge">
+                                    <div class="bg" id="updating" style="width: 81%" button-option="ing"></div><!--설치/업데이트 진행중일 때: button-option="ing"-->
+                                    <p><i class="icon icon-stop"></i> 업데이트 중지</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--//업데이트 중-->
+                        <!--업데이트 필요-->
+                        <div class="bar_wrap">
+                            <div class="volume">
+                                <p class="grey">현재버전: 2019.04.03.0000.0000 (2019.04.03.0000.0000)</p>
+                                <p class="white">최신버전: 2019.04.03.0000.0000 (2019.04.03.0000.0000)</p>
+                            </div>
+                            <div class="bar">
+                                <div class="gauge">
+                                    <div class="bg" id="update" style="width: 100%" button-option="click"></div><!--게임설치/업데이트 상태일 때: button-option="click"-->
+                                    <p>업데이트</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--//업데이트 필요-->
+                        <!--게임설치 중지-->
+                        <div class="bar_wrap">
+                            <div class="volume">
+                                <p class="white line1">5.39 GB  / 19.58 GB</p>
+                            </div>
+                            <div class="per">31%</div>
+                            <div class="bar">
+                                <div class="gauge">
+                                    <div class="bg" id="installing" style="width: 31%" button-option="stop"></div><!--정지상태일때: button-option="stop"-->
+                                    <p><i class="icon icon-ing"></i> 계속</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--//게임설치 중지-->
+                        <!--게임설치 중-->
+                        <div class="bar_wrap">
+                            <div class="volume">
+                                <p class="white line1">5.39 GB  / 19.58 GB</p>
+                            </div>
+                            <div class="per">31%</div>
+                            <div class="bar">            
+                                <div class="gauge">
+                                    <div class="bg" id="installing" style="width: 31%" button-option="ing"></div><!--설치/업데이트 진행중일 때: button-option="ing"-->
+                                    <p><i class="icon icon-stop"></i> 설치 중지</p>
+                                </div>   
+                            </div>
+                        </div>
+                        <!--//게임설치 중-->
+                        <!--게임설치-->
+                        <div class="bar_wrap">
+                            <div class="volume">
+                                <p class="white line1">게임 클라이언트 설치가 필요합니다. </p>
+                            </div>
+                            <div class="bar modalController" modal-control="open" modal-target="#modal-install"><!--게임 설치 용량이 부족할 경우 팝업 노출-->
+                                <div class="gauge">
+                                    <div class="bg" id="install" style="width: 100%" button-option="click"></div><!--게임설치/업데이트 상태일 때: button-option="click"-->
+                                    <p>게임 설치</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--//게임설치-->
+                    </div>
+                    <!--프로그레스 바-->
+                </div>
+                <!--//상단 프로그레스 바 영역-->
+                <!--블록형 리스트-->
+                <div id="blocks" class="scroll-js mCustomScrollbar">
+                    <!--변경사항-->
+                    <!--
+                    윈도우 로드 이후에 블록형 리스트 <div id="blocks">를 삽입할 경우 하기의 함수를 실행시켜 주어야 함.
+                        afterLoad();
+                    -->
+                    <!--//변경사항-->
+                    <h1 id="logo"><img src="../../img/launcher/logo.png" alt="파이널판타지14(FINAL FANTASY XIV)" /></h1>
+                    <!-- 무료체험 추가 -->
+                    <div class="trial">
+                        <span>현재 무료체험 서비스를 이용 중입니다</span>
+                        <i class="icon icon-question2">
+                            <div class="tooltip">
+                                파이널판타지14를 무료로 35레벨까지 이용할 수 있습니다. <br />PC방에서 접속하거나 유료 결제를 하면 무료 체험 기능이 해제됩니다.
+                            </div>
+                        </i>
+                    </div>
+                    <!-- //무료체험 추가 -->
+                    <!--블록형 리스트-->
+                    <ul id="content-blocks">
+                        <!--IMS에서 링크를 입력했을 경우 <li class="block">의 자식요소 a태그 안에 내용이 들어감-->
+                        <li class="block">
+                            <a href="https://www.ff14.co.kr/news/notice/view/1432?page=1" target="_blank">
+                                <img src="https://image.ff14.co.kr/event/fun/2019/julshop/img/a-72f3-c394/s-_bf3-ea_a.png?688c2007bc50b0e167d070781f7581bc" />
+                                <p><em class="title">1. 2019 팬페스티벌 서울 QnA 안내</em></p>
+                                <p class="desc">모험가 여러분들께서 보여주신 성원에 진심으로 감사의 말씀 전해 드립니다. <br />        자세한 사항은 아래를 통해 확인해 주시기 바랍니다.</p>
+                                <!-- 컬러값 수정 -->
+                                <p class="date">
+                                    <span class="color" style="color: #958bf6;">기간 : </span><!-- IMS에서 입력된 컬러코드를 style에 넣어주세요. 모든 블록에 동일하게 적용. -->
+                                    <span class="no-color">2019년 06월 03일(화) ~ 팬페스티벌 전까지</span>
+                                </p>
+                                <!-- //컬러값 수정 -->
+                            </a>
+                        </li>
+                        <li class="block">
+                            <!--동영상은 a태그 바깥에-->
+                            <iframe src="https://www.youtube.com/embed/FFd3kLXPJ-Q?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <a href="https://www.ff14.co.kr/news/notice/view/1432?page=1" target="_blank">
+                                <p><em class="title">2. 2019 팬페스티벌 서울 QnA 안내</em></p>
+                                <p class="desc">모험가 여러분들께서 보여주신 성원에 진심으로 감사의 말씀 전해 드립니다. <br />        자세한 사항은 아래를 통해 확인해 주시기 바랍니다.</p>
+                                <p class="date">
+                                    <span class="color" style="color: #00b000;">기간 : </span>
+                                    <span class="no-color">2019년 06월 03일(화) ~ 팬페스티벌 전까지</span>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="block">
+                            <a href="https://www.ff14.co.kr/news/notice/view/1432?page=1" target="_blank">
+                                <p><em class="title">3. 크리스탈샵 서버 점검 완료 안내</em></p>
+                                <p class="desc">크리스탈샵 서버 점검, 현대카드 결제 정상화</p>
+                                <p class="date">
+                                    <span class="color" style="color: #ea4444;">기간 : </span>
+                                    <span class="no-color">2019년 06월 03일(화) ~ 팬페스티벌 전까지</span>
+                                </p>
+                            </a>
+                        </li>
+                        <!--//IMS에서 링크를 입력했을 경우 <li class="block">의 자식요소 a태그 안에 내용이 들어감-->
+                        
+                        <!--IMS에서 링크를 입력하지 않았을 경우 <li class="block">의 자식요소 a태그 없음-->
+                        <li class="block">
+                            <p><em class="title">4. 크리스탈샵 서버 점검 완료 안내</em></p>
+                            <p class="desc">크리스탈샵 서버 점검, 현대카드 결제 정상화</p>
+                            <p class="date">
+                                <span class="color" style="color: #958bf6;">기간 : </span>
+                                <span class="no-color">2019년 06월 03일(화) ~ 팬페스티벌 전까지</span>
+                            </p>
+                        </li>
+                        <li class="block">
+                            <img src="http://static.ff14.co.kr/Contents/2019/04/44AEEDD8D4B09DC84247BB544296C38FD6F1E60A0388FA574CFD7BB7833DB9F8.jpg" />
+                            <p><em class="title">5. 2019 팬페스티벌 서울 QnA 안내</em></p>
+                            <p class="desc">모험가 여러분들께서 보여주신 성원에 진심으로 감사의 말씀 전해 드립니다. <br />        자세한 사항은 아래를 통해 확인해 주시기 바랍니다.</p>
+                            <p class="date">
+                                <span class="color" style="color: #c79054;">기간 : </span>
+                                <span class="no-color">2019년 06월 03일(화) ~ 팬페스티벌 전까지</span>
+                            </p>
+                        </li>
+                        <li class="block">
+                            <iframe src="https://www.youtube.com/embed/FFd3kLXPJ-Q?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>  
+                            <p><em class="title">6. 2019 팬페스티벌 서울 QnA 안내</em></p>
+                            <p class="desc">모험가 여러분들께서 보여주신 성원에 진심으로 감사의 말씀 전해 드립니다. <br />        자세한 사항은 아래를 통해 확인해 주시기 바랍니다.</p>
+                            <p class="date">
+                                <span class="color" style="color: #958bf6;">기간 : </span>
+                                <span class="no-color">2019년 06월 03일(화) ~ 팬페스티벌 전까지</span>
+                            </p>
+                        </li>
+                        <!--//IMS에서 링크를 입력하지 않았을 경우 <li class="block">의 자식요소 a태그 없음-->
+                        <li class="block">
+                            <a href="https://www.ff14.co.kr/news/notice/view/1432?page=1" target="_blank">
+                                <p><em class="title">7. 크리스탈샵 서버 점검 완료 안내</em></p>
+                                <p class="desc">크리스탈샵 서버 점검, 현대카드 결제 정상화</p>
+                                <p class="date">
+                                    <span class="color" style="color: #ea4444;">기간 : </span>
+                                    <span class="no-color">2019년 06월 03일(화) ~ 팬페스티벌 전까지</span>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="block">
+                            <a href="https://www.ff14.co.kr/news/notice/view/1432?page=1" target="_blank">
+                                <img src="https://scontent-frt3-1.cdninstagram.com/vp/fd484fa1852eb8333fb58c13fd45ef65/5DB23219/t51.2885-15/e35/c251.0.578.578a/s320x320/65271524_345254976166526_4899838916444002582_n.jpg?_nc_ht=scontent-frt3-1.cdninstagram.com&ig_cache_key=MjA4MTc3NjU2ODk1MTkzNzYzOA%3D%3D.2.c" />
+                                <p><em class="title">8. 2019 팬페스티벌 서울 QnA 안내</em></p>
+                                <p class="desc">모험가 여러분들께서 보여주신 성원에 진심으로 감사의 말씀 전해 드립니다. <br />        자세한 사항은 아래를 통해 확인해 주시기 바랍니다.</p>
+                                <p class="date">
+                                    <span class="color" style="color: #00b000;">기간 : </span>
+                                    <span class="no-color">2019년 06월 03일(화) ~ 팬페스티벌 전까지</span>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="block">
+                            <iframe src="https://www.youtube.com/embed/FFd3kLXPJ-Q?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <a href="https://www.ff14.co.kr/news/notice/view/1432?page=1" target="_blank">
+                                <p><em class="title">9. 2019 팬페스티벌 서울 QnA 안내</em></p>
+                                <p class="desc">모험가 여러분들께서 보여주신 성원에 진심으로 감사의 말씀 전해 드립니다. <br />        자세한 사항은 아래를 통해 확인해 주시기 바랍니다.</p>
+                                <p class="date">
+                                    <span class="color" style="color: #c79054;">기간 : </span>
+                                    <span class="no-color">2019년 06월 03일(화) ~ 팬페스티벌 전까지</span>
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                    <!--//블록형 리스트-->
+                    <p class="copyright">&copy;2010 - <span class="years"></span>&nbsp;SQUARE ENIX CO., LTD. All Rights Reserved. Published in Korea by ACTOZ SOFT CO., LTD.</p>
+                </div>
+                <!--//블록형 리스트-->
+                <!-- 데이터 로딩중 -->
+                <div id="content-loading" class="load" style="display: none;">
+                    <div class="wrap1">
+                        <div class="wrap2">                            
+                            <div class="wrap">
+                                <div class="text-wrap">
+                                    <i class="icon-loading"></i>
+                                    <span>데이터 로딩중...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- //데이터 로딩중 -->
+                <!-- 데이터 로딩 실패 -->
+                <div id="content-fail" class="load" style="display: none;">
+                    <div class="wrap1">
+                        <div class="wrap2">                            
+                            <div class="wrap">
+                                <div class="text-wrap">
+                                    <p>일부 데이터를 불러오지 못했습니다.</p>
+                                </div>
+                                <div class="btn-wrap">
+                                    <button type="button">
+                                        <i class="icon btn-refresh"></i>
+                                        <span>새로고침</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- //데이터 로딩 실패 -->
+                <!--토스트 팝업-->
+                <!--정렬순서: 늦은날짜→이른날짜 순으로 내림차순-->
+                <ul id="toast">
+                    <li>
+                        <p class="notice"><i class="icon icon-toast"></i>현재 정액제 이용권 잔여기간이 3일 남았습니다.</p>
+                        <p class="date">2019년 7월 26일 00:00</p>
+                        <div class="close"><span>토스트팝업 닫기</span></div>
+                    </li>
+                    <li>
+                        <p class="notice"><i class="icon icon-toast"></i>선물 받은 아이템이 있습니다. 선물 받은 아이템이 있습니다
+                        </p>
+                        <p class="date">2019년 7월 25일 00:00</p>
+                        <div class="close"><span>토스트팝업 닫기</span></div>
+                    </li>
+                    <li>
+                        <p class="notice"><i class="icon icon-toast"></i>현재 정액제 이용권 잔여기간이 3일 남았습니다.</p>
+                        <p class="date">2019년 7월 24일 00:00</p>
+                        <div class="close"><span>토스트팝업 닫기</span></div>
+                    </li>
+                    <li>
+                        <p class="notice"><i class="icon icon-toast"></i>선물 받은 아이템이 있습니다.
+                        </p>
+                        <p class="date">2019년 7월 23일 00:00</p>
+                        <div class="close"><span>토스트팝업 닫기</span></div>
+                    </li>
+                </ul>
+                <!--//토스트 팝업-->
+
+                <div class="dimmed"></div><!--팝업 띄울때 공통 dim처리-->
+                <!--점검 팝업-->
+                <div id="modal-check" class="modal">
+                    <div class="text-wrap">
+                        <div class="icon icon-exclamation"></div>
+                        <strong class="title">
+                            현재 서비스 점검중 입니다.
+                        </strong>
+                        <div class="text">
+                            <!-- 2019.11.04. QA 수정2 -->
+                            지금은 보다 나은 서비스 제공을 위한 점검이 진행되고 있습니다. <br /><br />불편하시더라도 조금만 기다려 주시길 바라며, <br />보다 신속하게 작업을 마칠 수 있도록 최선을 다하겠습니다. <br /><br />게임 점검이 완료되면 런처를 재실행하신 후 게임 접속이 가능한 점 참고해 주시기 바랍니다.
+                            <!-- //2019.11.04. QA 수정2 -->
+                            <ul class="table">
+                                <li>
+                                    <em>점검시간<br />점검시간</em>
+                                    <span>2019 - 06 - 21 AM 10:00 ~ 2019 - 06 - 21 PM 05:00<br />2019 - 06 - 21 AM 10:00 ~ 2019 - 06 - 21 PM 05:00</span>
+                                </li>
+                                <li>
+                                    <em>점검내용</em>
+                                    <span>정기점검</span>
+                                </li>
+                                <li>
+                                    <em>점검영향</em>
+                                    <span>웹 페이지 및 게임 서비스 이용 불가</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="btn-wrap">
+                        <!--
+                        ***** 팝업 제어 *****
+                        1. 클래스 modalController 추가
+                        2. 어트리뷰트 modal-control, modal-target 추가
+                            1)팝업 닫을 때: modal-control="close"
+                            닫기 요소를 포함하고 있는 팝업창이 닫힘
+                            ex) <div class="modalController" modal-control="close">
+
+                            2)팝업 열 때: modal-control="open" modal-target="열어야 할 팝업의 css selector"
+                            ex) <div class="modalController" modal-control="open" modal-target="#modal-check">점검 팝업 열기</div>
+
+                            3)현재 팝업 닫고 다른 팝업을 호출할 때: modal-control="call" modal-target="열어야 할 팝업의 css selector"
+                            ex) <div class="modalController" modal-control="call" modal-target="#modal-notice">현재 팝업 닫고 공지팝업 열기</div>
+                        3. onclick 이벤트로 작성하여도 무관함. 
+                            ex) <div onclick='$("#modal-oooo").fadeOut(); $(".dimmed").fadeOut();'></div>
+                        -->
+                        <button type="button" class="modalController" modal-control="call" modal-target="#modal-notice">확인</button>
+                        <label>
+                            <input type="checkbox" /><i class="icon icon-check"></i><span>하루 동안 보지 않기</span>
+                        </label>
+                    </div>
+                    <button type="button" class="close-pop modalController" modal-control="call" modal-target="#modal-notice"><i class="icon icon-pop-close"></i></button>
+                </div>
+                <!--//점검 팝업-->
+                <!--공지 팝업: 이미지 or 동영상이 있는 경우-->
+                <div id="modal-notice" class="modal" style="display: none;">
+                    <div class="modal-notice-wrap scroll-js mCustomScrollbar">
+                        <div class="img-wrap">
+                            <!--IMS에 동영상을 입력하면 동영상 노출-->
+                            <iframe width="600" height="337" src="https://www.youtube.com/embed/CMTa3jMS5Q0?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture;" allowfullscreen></iframe> 
+                            <!--IMS에 이미지를 입력하면 이미지 노출 ↓-->
+                            <!--<img src="../../img/launcher/sample_01.png" />-->
+                        </div>
+                        <div class="text-wrap">
+                            <!--변경사항-->
+                            <!-- IMS에서 링크를 입력했을 때 -->
+                            <strong class="title"><a href="https://www.ff14.co.kr/main" target="_blank">4주년 기념 특별방송 안내<br />[파이널판타지14X매드라이프] 4주년 기념 특별방송 생방송 안내입니다<i class="icon icon-link"></i></a></strong>
+                            <!-- IMS에서 링크를 입력하지 않았을 때 -->
+                            <!--
+                            <strong class="title">4주년 기념 특별방송 안내<br />[파이널판타지14X매드라이프] 4주년 기념 특별방송 생방송 안내입니다</strong>
+                            -->
+                            <!--//변경사항-->
+                            <!-- 컬러값 수정 -->
+                            <em class="sub-title">
+                                <span class="color" style="color: #6b90dd;">본방 사수!</span><!-- IMS에서 입력된 컬러코드를 style에 넣어주세요 -->
+                                <span class="no-color">파이널판타지14 특별방송 많이 시청해 주세요</span>
+                            </em>
+                            <!-- //컬러값 수정 -->
+                            <div class="text">
+                                안녕하세요.<br /> 
+                                최고의 모험을 선물하는 파이널판타지14 입니다.<br />                               
+                                오는 8월 6일(화)에 크리스탈샵 관련 신규 상품 추가를 위한 점검이 진행될 예정입니다.<br />   자세한 내용은 다음 사항을 참고해 주시길 바랍니다.<br /> <br /> 
+                                안녕하세요.<br /> 
+                                최고의 모험을 선물하는 파이널판타지14 입니다.<br />                               
+                                오는 8월 6일(화)에 크리스탈샵 관련 신규 상품 추가를 위한 점검이 진행될 예정입니다.<br />   자세한 내용은 다음 사항을 참고해 주시길 바랍니다.<br /> <br /> 
+                                안녕하세요.<br /> 
+                                최고의 모험을 선물하는 파이널판타지14 입니다.<br />                               
+                                오는 8월 6일(화)에 크리스탈샵 관련 신규 상품 추가를 위한 점검이 진행될 예정입니다.<br />   자세한 내용은 다음 사항을 참고해 주시길 바랍니다.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-wrap"> 
+                        <button type="button" class="modalController" modal-control="close" onclick='callToast();'>확인</button><!--팝업 닫고 토스트팝업 호출-->
+                        <label>
+                            <input type="checkbox" /><i class="icon icon-check"></i><span>하루 동안 보지 않기</span>
+                        </label>
+                    </div>
+                    <button type="button" class="close-pop modalController" modal-control="close" onclick='callToast();'><i class="icon icon-pop-close"></i></button><!--팝업 닫고 토스트팝업 호출-->
+                </div>
+                <!--//공지 팝업: 이미지 or 동영상이 있는 경우-->
+                <!--공지 팝업: 이미지 or 동영상이 없는 경우-->
+                <div id="modal-notice-text" class="modal" style="display: none;">
+                    <div class="modal-notice-wrap scroll-js mCustomScrollbar">
+                        <div class="text-wrap">
+                            <!--변경사항-->
+                            <!-- IMS에서 링크를 입력했을 때 -->
+                            <!--
+                            <strong class="title"><a href="https://www.ff14.co.kr/main" target="_blank">4주년 기념 특별방송 안내<br />[파이널판타지14X매드라이프] 4주년 기념 특별방송 생방송 안내입니다<i class="icon icon-link"></i></a></strong>
+                            -->
+                            <!-- IMS에서 링크를 입력하지 않았을 때 -->
+                            <strong class="title">4주년 기념 특별방송 안내<br />[파이널판타지14X매드라이프] 4주년 기념 특별방송 생방송 안내입니다</strong>
+                            <!--//변경사항-->
+                            <!-- 컬러값 수정 -->
+                            <em class="sub-title">
+                                <span class="color" style="color: #6b90dd;">본방 사수!</span><!-- IMS에서 입력된 컬러코드를 style에 넣어주세요 -->
+                                <span class="no-color">파이널판타지14 특별방송 많이 시청해 주세요</span>
+                            </em>
+                            <!-- //컬러값 수정 -->
+                            <div class="text">
+                                안녕하세요.<br /> 
+                                최고의 모험을 선물하는 파이널판타지14 입니다.<br />                               
+                                오는 8월 6일(화)에 크리스탈샵 관련 신규 상품 추가를 위한 점검이 진행될 예정입니다.<br />   자세한 내용은 다음 사항을 참고해 주시길 바랍니다.<br /> <br /> 
+                                안녕하세요.<br /> 
+                                최고의 모험을 선물하는 파이널판타지14 입니다.<br />                               
+                                오는 8월 6일(화)에 크리스탈샵 관련 신규 상품 추가를 위한 점검이 진행될 예정입니다.<br />   자세한 내용은 다음 사항을 참고해 주시길 바랍니다.<br /> <br /> 
+                                안녕하세요.<br /> 
+                                최고의 모험을 선물하는 파이널판타지14 입니다.<br />                               
+                                오는 8월 6일(화)에 크리스탈샵 관련 신규 상품 추가를 위한 점검이 진행될 예정입니다.<br />   자세한 내용은 다음 사항을 참고해 주시길 바랍니다.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-wrap">
+                        <button type="button" class="modalController" modal-control="close">확인</button>
+                        <label>
+                            <input type="checkbox" /><i class="icon icon-check"></i><span>하루 동안 보지 않기</span>
+                        </label>
+                    </div>
+                    <button type="button" class="close-pop modalController" modal-control="close" onclick='callToast();'><i class="icon icon-pop-close"></i></button>
+                </div>
+                <!--//공지 팝업: 이미지 or 동영상이 없는 경우-->
+                <!--설치 팝업-->
+                <div id="modal-install" class="modal" style="display: none;">
+                    <div class="text-wrap">
+                        <div class="icon icon-exclamation"></div>
+                        <strong class="title">
+                            파이널판타지14 게임 설치를 위하여 <br />최소 50GB의 디스크 여유 공간이 필요합니다.
+                        </strong>
+                        <div class="text">
+                            <p>현재 선택한 설치 경로의 디스크 여유 공간을 확인해주세요.</p>
+                            <div class="border scroll-js-horizon mCustomScrollbar">
+                                <div class="border-wrap">C:\Program Files (x86)\FINAL FANTASY XIV - KOREA C:\Program Files (x86)\FINAL FANTASY XIV - KOREA C:\Program Files (x86)\FINAL FANTASY XIV - KOREA</div>
+                            </div>
+                            <p>필요한 공간 : <span class="white">50GB</span><span class="slash">/</span>디스크 여유 공간 : <span class="red">10GB</span></p>
+                        </div>
+                    </div>
+                    <div class="btn-wrap">
+                        <button type="button" class="modalController" modal-control="close">확인</button>
+                    </div>
+                    <button type="button" class="close-pop modalController" modal-control="close"><i class="icon icon-pop-close"></i></button>
+                </div>
+                <!--//설치 팝업-->
+                <!--레벨35 팝업-->
+                <div id="modal-lv35" class="modal" style="display: none;">
+                    <div class="top-wrap">파이널판타지14 로그인 선택</div>
+                    <div class="text-wrap">
+                        <strong class="title">
+                            현재 모험가님은 <span class="blue">“35레벨 무료 혜택”</span> 대상이며 <br /><span class="orange">가맹 PC방</span>에서 접속하셨습니다.
+                        </strong>
+                        <div class="text">
+                            <p>두가지 혜택 중, 원하시는 혜택을 선택하여 접속하실 수 있습니다.</p>
+                            <ul class="choice">
+                                <li class="free">
+                                    <div class="top">35레벨까지 무료 게임</div>
+                                    <div class="middle">
+                                        <div>
+                                            <p>파이널판타지14를 35레벨까지 <br />무료로 이용할 수 있는 혜택입니다.</p>
+                                            <a href="http://www.ff14.co.kr/events/pub/free" target="_blank" class="confirm">혜택 확인하기</a>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="blue-bg">35레벨 무료 혜택 게임 실행</button>
+                                </li>
+                                <li class="pcbang">
+                                    <div class="top">가맹 PC방</div>
+                                    <div class="middle">
+                                        <div>
+                                            <p>웹젠 가맹 PC방에서 파이널판타지14를 <br />이용하시면 추가 혜택이 적용됩니다.</p>
+                                            <p class="orange">가맹 PC방 접속 혹은 유료 결제 시, <br />35레벨 무료 혜택 기능은 해제됩니다.</p>
+                                            <a href="http://www.ff14.co.kr/events/2017/pcroom" target="_blank" class="confirm">혜택 확인하기</a>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="orange-bg">가맹 PC방 혜택 게임 실행</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button type="button" class="close-pop modalController" modal-control="close"><i class="icon icon-pop-close"></i></button>
+                </div>
+                <!--//레벨35 팝업-->
+                <!-- 종료확인 팝업 -->
+                <div id="modal-closed" class="modal" style="display: none;">
+                    <div class="text-wrap">
+                        <div class="icon icon-question"></div>
+                        <p>런처를 종료하시겠습니까?</p>
+                    </div>
+                    <div class="btn-wrap">
+                        <button type="button">확인</button>
+                        <button type="button" class="modalController" modal-control="close">취소</button>
+                    </div>
+                </div>
+                <!-- //종료확인 팝업 -->
+                <!-- 설정 팝업 -->
+                <div id="modal-set" class="modal" style="display: none;">
+                    <div class="top-wrap"><div class="icon icon-setting"></div>설정</div>
+                    <div class="view-wrap">
+                        <div class="tab-box">
+                            <ul class="tab">
+                                <li class="on"><button type="button">일반</button></li>
+                                <li><button type="button">게임</button></li>
+                                <li><button type="button">정보</button></li>
+                            </ul>
+                        </div>
+                        <div id="set-type">
+                            <!-- 일반 -->
+                            <div class="set1">
+                                <div class="text-wrap">
+                                    <strong class="title">화면 모드 설정</strong>
+                                    <div class="select-box">
+                                        <span>창모드</span>
+                                        <ul>
+                                            <li class="on"><button type="button">창모드(기본)</button></li>
+                                            <li><button type="button">전체화면</button></li>
+                                        </ul>
+                                        <i></i>
+                                    </div>
+                                    <strong class="title">사용자 설정 백업</strong>
+                                    <p>단축바, HUB 배열, 캐릭터 설정 등의 사용자 설정 정보를 백업 및 복원합니다.</p>
+                                    <!--<p>백업 및 복원은 즉시 적용됩니다.</p>--><!--설정 수정: 텍스트 삭제-->
+                                    <ul class="btn-box">
+                                        <li>
+                                            <div class="btn"><button class="button">클라우드로부터 복원</button></div>
+                                            <div class="text">
+                                                <p>
+                                                    클라우드에 마지막으로 저장된 설정으로 복원합니다.<br>
+                                                    <!--데이터가 있을 경우, 버튼 클릭 시 <span class="txt-blue">즉시 복원</span> 됩니다.<br>--><!--설정 수정: 텍스트 삭제-->
+                                                    (클라우드 백업 기능 제공은 종료되었으며 복원 기능 또한 한시적으로 제공됩니다.)
+                                                </p>
+                                                <p class="last-set">
+                                                    마지막 백업 일시 : 2017년 07월 25일 15시 35분<br>
+                                                    마지막 백업 일시 : 없음
+                                                </p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="btn"><button class="button">파일을 선택하여 복원</button></div>
+                                            <div class="text">
+                                                <input type="checkbox" id="btn_set"><label for="btn_set" name="btn_set">이전 사용자 설정을 덮어쓰지 않습니다.</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="btn"><button type="button">사용자 설정 백업</button></div>
+                                            <div class="text"><p>현재 설정을 백업 파일로 저장합니다.</p></div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- //일반 -->
+                            <!-- 게임 -->
+                            <div class="set2 hidden">
+                                <div class="text-wrap">
+                                    <div class="text">
+                                        <strong class="title">게임 설치 경로</strong>
+                                        <div class="border scroll-js-horizon mCustomScrollbar">
+                                            <div class="border-wrap">C:\Program Files (x86)\FINAL FANTASY XIV - KOREA\FINAL FANTASY XIV - KOREA\FINAL FANTASY XIV - KOREA</div>
+                                        </div>
+                                    </div>
+                                    <ul class="btn-box">
+                                        <li>
+                                            <strong class="title">게임 업데이트</strong>
+                                            <div class="check_setting">
+                                                <label class="radio_dx" for="setting_update">
+                                                    <input type="checkbox" value="true" name="setting_update" id="setting_update" checked>
+                                                    <i class="icon btn-setting"></i>
+                                                    <span class="on">런처 실행 시 게임을 자동 업데이트 합니다.</span>
+                                                    <span class="off">수동으로 업데이트 합니다.</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <!--설정 수정-->
+                                        <li>
+                                            <strong class="title">Direct X 11 사용 설정</strong>
+                                            <p>Direct 11 모드를 지원하지 않는 PC이거나, 성능을 향상시키려면 체크 옵션을 해제해주세요.</p>
+                                            <!--2019.09.30 수정: DX11 비활성화 추가--
+                                            <div class="check_setting disabled">
+                                                <label class="radio_dx" for="setting_dx11">
+                                                    <input type="checkbox" value="true" name="setting_dx11" id="setting_dx11" disabled>
+                                                    <i class="icon btn-setting"></i>
+                                                    <span class="disabled">PC 성능에 따라 Direct X 11 사용이 제한됩니다.</span>
+                                                </label>
+                                            </div>
+                                            <!-- ↓DX11 기존 on/off-->    
+                                            <div class="check_setting">
+                                                <label class="radio_dx" for="setting_dx11">
+                                                    <input type="checkbox" value="true" name="setting_dx11" id="setting_dx11" checked>
+                                                    <i class="icon btn-setting"></i>
+                                                    <span class="on">더 아름다운 그래픽으로 파이널판타지14를 즐길 수 있는 Direct X 11 모드를 사용합니다.</span>
+                                                    <span class="off"></span>
+                                                </label>
+                                            </div>
+                                                                                    
+                                            <!--//2019.09.30 수정: DX11 비활성화 추가-->
+                                        </li>
+                                        <li>
+                                            <strong class="title">시스템 설정 초기화</strong>
+                                            <p>게임 실행 시 게임 클라이언트의 시스템 설정을 초기화하도록 설정합니다. <br>화면/소리/그래픽/마우스/게임패드 설정 등이 초기화되며 Opening Movie가 다시 보이게 됩니다.
+                                            </p>
+                                            <div class="check_setting">
+                                                <label class="radio_dx" for="setting_reset">
+                                                    <input type="checkbox" value="true" name="setting_reset" id="setting_reset">
+                                                    <i class="icon btn-setting"></i>
+                                                    <span class="off"></span>
+                                                    <span class="on txt-blue">시스템 설정을 초기화합니다.</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <!--//설정 수정-->
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- //게임 -->
+                            <!-- 정보 -->
+                            <div class="set3 hidden">
+                                <div class="text-wrap">
+                                    <div>
+                                        <strong class="title">파이널판타지14 런처</strong>
+                                        <p class="txt-blue">v 1.3.4.114</p>
+                                    </div>
+                                    <div>
+                                        <strong class="title">게임 정보 및 이용 등급 안내</strong>
+                                        <ul class="table">
+                                            <li>
+                                                <em>게임명</em>
+                                                <span>FINAL FANTASY XIV (파이널판타지14)</span>
+                                            </li>
+                                            <li>
+                                                <em>원제명</em>
+                                                <span>FINAL FANTASY XIV</span>
+                                            </li>
+                                            <li>
+                                                <em>개발사</em>
+                                                <span>SQUARE ENIX</span>
+                                            </li>
+                                            <li>
+                                                <em>배급사</em>
+                                                <span>(주) 액토즈소프트</span>
+                                            </li>
+                                            <li>
+                                                <em>등급</em>
+                                                <span>15세 이용가</span>
+                                            </li>
+                                            <li>
+                                                <em>등급분류번호</em>
+                                                <span>GC-CC-NP-190726-017</span>
+                                            </li>
+                                            <li>
+                                                <em>등급분류일자</em>
+                                                <span>2019-07-26</span>
+                                            </li>
+                                            <li>
+                                                <em>신고(등록)번호</em>
+                                                <span>제 2015-57호</span>
+                                            </li>
+                                            <li>
+                                                <em>장르</em>
+                                                <span>롤플레잉</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- //정보 -->
+                        </div>
+                    </div>
+                    <div class="btn-wrap">
+                        <div class="btn-wrap-left">
+                            <button type="button" class="default-set">설정 초기화</button>
+                        </div>
+                        <div class="btn-wrap-right">
+                            <button type="button">확인</button>
+                            <button type="button">취소</button>
+                            <button type="button" disabled id="SetupApply" onclick="SetupConfirm('');">적용</button>
+                        </div>
+                    </div>
+                    <button type="button" class="close-pop modalController" modal-control="close"><i class="icon icon-pop-close"></i></button>
+                </div>
+                <!-- //설정 팝업 -->
+            </div>
+        </div>
+        <script type="text/javascript">
+        //설정창 확인 또는 적용
+        function SetupConfirm(area) {
+
+var BoolAutoSetup = "";
+var BoolScreenMode = "";
+var BoolDirectX = "";
+
+BoolAutoSetup = $("#decideAS").val() == "1" ? true : false;
+BoolScreenMode = $("#screenMode").val() == "0" ? true : false;
+BoolDirectX = $("#decideDX").val() == "1" ? true : false;
+
+
+//자동패치 설정
+$.ajax({
+    type: "POST",
+    url: "/LauncherFF/SaveASCooike",
+    data: { decideAS: $("#decideAS").val() },
+    async: false,
+    success: function (d) {
+    },
+    error: function (request, status, error) {
+    }
+
+});
+
+
+$("#SetupApply").attr("disabled", true);
+
+//확인 클릭 시 팝업 종료
+if (area == "Confirm") {
+
+    $("#modal-set").fadeOut();
+    $(".dimmed").fadeOut();
+
+}
+
+}
+        </script>
+    </body>
+</html>

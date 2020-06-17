@@ -1,0 +1,2052 @@
+@charset 'utf-8';
+@import "./variable.scss"; 
+@import "./sprite.scss";
+
+/*html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, button {
+	letter-spacing: -0.5px;
+    font-family: 'Noto Sans KR Regular', '돋움', Arial, Helvetica, sans-serif;
+    font-style: normal; 
+}*/
+html, body {    
+    //min-width: 1360px;
+    //min-height: 850px;
+    overflow: hidden;
+    background: #000;
+}
+
+
+#launcher_wrap {
+    div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, button {
+        letter-spacing: -0.5px;
+        font-family: 'Noto Sans KR Regular', '돋움', Arial, Helvetica, sans-serif;
+        font-style: normal; 
+    }
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-width: 1360px;
+    min-height: 850px;
+    overflow: hidden;
+    border: 1px solid #3e3e3e;
+    box-sizing: border-box;
+    background: #000 url(../img/launcher/bg.png) no-repeat center top;
+    word-break: break-word;
+    /* 기본 셋팅 */
+    button {
+        cursor: pointer;
+        border: 0;
+    }
+    input, label {
+        cursor: pointer;
+    }
+    i.icon {
+        display: inline-block;
+    }
+    /* //기본 셋팅 */
+    .top_bar {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 35px;
+        z-index: 3;
+        background: #000;
+        overflow: hidden;
+        .left {
+            float: left;
+            padding: 8px 0 0 14px; 
+            span {
+                @include noText();
+                @include sprite($logo-top);
+            }
+        }
+        .right {
+            float: right;
+            padding: 0 10px 0 0;
+            li {
+                float: left;
+                margin: 0 2px;
+                padding: 11px 4px;
+                cursor: pointer;
+                span {
+                    @include noText();
+                }
+                &.setting {
+                    span {
+                        @include sprite($icon-top-01-off);
+                    }
+                }
+                &.minimum {
+                    span {
+                        @include sprite($icon-top-02-off);
+                    }
+                }
+                &.maximum {
+                    span {
+                        @include sprite($icon-top-03-off);
+                    }
+                    &.type2 {
+                        span {
+                            @include sprite($icon-top-05-off);
+                        }
+                    }
+                }
+                &.close {
+                    span {
+                        @include sprite($icon-top-04-off);
+                    }
+                }
+                &:hover {
+                    &.setting {
+                        span {
+                            @include sprite($icon-top-01-on);
+                        }
+                    }
+                    &.minimum {
+                        span {
+                            @include sprite($icon-top-02-on);
+                        }
+                    }
+                    &.maximum {
+                        span {
+                            @include sprite($icon-top-03-on);
+                        }
+                        &.type2 {
+                            span {
+                                @include sprite($icon-top-05-on);
+                            }
+                        }
+                    }
+                    &.close {
+                        span {
+                            @include sprite($icon-top-04-on);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    #lnb {
+        position: relative;
+        float: left;
+        width: 265px;
+        height: 100%;
+        //height: calc(100% - 35px) !important;
+        background: rgba(0,0,0,0.5);
+        color: #fff;
+        z-index: 2;
+        border-right: 1px solid #333;
+        box-sizing: border-box;
+        &.fold {
+            //width: 130px;
+            .user {
+                width: 100%;
+                .photo {
+                    left: 12px;
+                }
+                .info {
+                    display: none;
+                }
+            }
+            .direct {
+                padding: 10px 0;
+                text-align: center;
+                .wide {
+                    display: none;
+                }
+                .narrow {
+                    display: inline-block;
+                }
+            }
+            .list {
+                padding: 0 0 0 50px;
+                li {
+                    .text {
+                        display: none;
+                        position: absolute;
+                        top: -1px;
+                        left: 46px;
+                        //width: 140px;
+                        padding: 5px 15px;
+                        background: #333;
+                        border-radius: 5px;
+                        z-index: 5;
+                        &:after {
+                            content: "";
+                            display: block;
+                            width: 8px;
+                            height: 100%;
+                            position: absolute;
+                            left: -8px;
+                            top: 0;
+                            background: url(../img/launcher/bg_balloon.png) no-repeat 0 center;
+                        }
+                    }
+                    &:hover {
+                        .text {
+                            display: block;
+                            word-break: keep-all;
+                            white-space: nowrap;
+                            overflow: visible;
+                        }
+                    }
+                }
+                &.pc {
+                    padding: 5px 0 5px 50px;
+                    li {
+                        .text {
+                            //display: none;
+                            left: 85px;
+                            background: #89764a;
+                            &:after {
+                                background-image: url(../img/launcher/bg_balloon_pc.png);
+                            }
+                        }
+                    }
+                }
+            }
+            .sns_wrap {
+                li {
+                    //padding: 0 4px;
+                    padding: 0;
+                }
+            }
+        }
+        &.pc_auto {
+            .patch {
+                padding: 143px 0 120px;
+                .icon-fire-on {
+                    position: relative;
+                    display: block;
+                    margin: 0 auto;
+                    @include sprite($fire-on);
+                }
+                .icon-loading-02 {
+                    position: absolute;
+                    left: 22px;
+                    top: 31px;
+                    display: block;
+                    width: 35px;
+                    height: 35px;
+                    border-radius: 50%;
+                    background: url(../img/launcher/loading_02.gif) no-repeat 0 0;
+                }
+                .white {
+                    text-align: center;
+                    font-size: 16px;
+                    margin: 2px 0 15px;
+                }
+                .grey {
+                    text-align: center;
+                    font-size: 14px;
+                    color: #707070;
+                }
+            }
+        }
+        .user {
+            position: relative;
+            display: table;
+            width: 265px;
+            padding: 35px 0 0;
+            &#pcroom {
+                .pc {
+                    display: block;
+                }
+                .not-pc {
+                    display: none;
+                }
+            }
+            &:not(#pcroom) {
+                .pc {
+                    display: none;
+                }
+                .not-pc {
+                    display: block;
+                }
+            }
+            > div {
+                display: table-cell;
+            }
+            .photo {
+                position: relative;
+                width: 104px;
+                height: 100px;
+                top: 3px;
+                //background: pink;
+                .fire_on {
+                    position: absolute;
+                    left: 10px;
+                    top: -1px;
+                    @include sprite($fire-on);
+                }
+                .fire_off {
+                    position: absolute;
+                    left: 6px;
+                    top: 0;
+                    @include sprite($fire-off);
+                }
+                .face {
+                    position: absolute;
+                    left: 25px;
+                    top: 25px;
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    background-color: #000;
+                    background-image: url(../img/launcher/char.png);    /* 2019.12. 종족 추가 */
+                    background-repeat: no-repeat;
+                    background-size: 199px auto;
+                    &.char_n0 {
+                        background-image: url(../img/launcher/char_dummy.png);  /* 2019.12. 종족 추가 */
+                        background-size: 100%; 
+                    }
+                    &.char_n1 {
+                        background-position: 0 0
+                    }
+                    
+                    &.char_n2 {
+                        background-position: -50px 0
+                    }
+                    
+                    &.char_n3 {
+                        background-position: -100px 0
+                    }
+                    
+                    &.char_n4 {
+                        background-position: -150px 0
+                    }
+                    
+                    &.char_n5 {
+                        background-position: 0 -50px
+                    }
+                    
+                    &.char_n6 {
+                        background-position: -50px -50px
+                    }
+                    
+                    &.char_n7 {
+                        background-position: -100px -50px
+                    }
+                    
+                    &.char_n8 {
+                        background-position: -150px -50px
+                    }
+                    
+                    &.char_n9 {
+                        background-position: 0 -100px
+                    }
+                    
+                    &.char_n10 {
+                        background-position: -50px -100px
+                    }
+                    
+                    &.char_n11 {
+                        background-position: -100px -100px
+                    }
+                    
+                    &.char_n12 {
+                        background-position: -150px -100px
+                    }
+                    
+                    &.char_n13 {
+                        background-position: 0 -150px
+                    }
+                    
+                    &.char_n14 {
+                        background-position: -50px -150px
+                    }
+                    
+                    &.char_n15 {
+                        background-position: -100px -150px
+                    }
+                    
+                    &.char_n16 {
+                        background-position: -150px -150px
+                    }
+                    
+                    &.char_n17 {
+                        background-position: 0 -200px
+                    }
+                    
+                    &.char_n18 {
+                        background-position: -50px -200px
+                    }
+                    
+                    &.char_n19 {
+                        background-position: -100px -200px
+                    }
+                    
+                    &.char_n20 {
+                        background-position: -150px -200px
+                    }
+                    
+                    &.char_n21 {
+                        background-position: 0 -250px
+                    }
+                    
+                    &.char_n22 {
+                        background-position: -50px -250px
+                    }
+                    
+                    &.char_n23 {
+                        background-position: -100px -250px
+                    }
+                    /* 2019.12. 종족 추가 */
+                    &.char_n24 {
+                        background-position: -150px -250px
+                    }
+                    
+                    &.char_n25 {
+                        background-position: 0 -300px
+                    }
+                    
+                    &.char_n26 {
+                        background-position: -50px -300px
+                    }
+                    
+                    &.char_n27 {
+                        background-position: -100px -300px
+                    }
+                    
+                    &.char_n28 {
+                        background-position: -150px -300px
+                    }
+                    /* //2019.12. 종족 추가 */
+                }
+                .icon-pc {
+                    position: absolute;
+                    bottom: 12px;
+                    left: 25px;
+                    @include noText();
+                    @include sprite($ico-pcroom);
+                }
+            }
+            .info {
+                font-size: 14px;
+                color: #707070;
+                letter-spacing: -1px;
+                span {
+                    font-size: 14px;
+                    color: #fff;
+                    vertical-align: baseline;
+                    letter-spacing: -1px;
+                }
+            }
+            .logout {
+                position: absolute;
+                right: 7px;
+                bottom: 7px;
+                @include noText();
+                i {
+                    display: block;
+                    cursor: pointer;
+                    @include sprite($icon-logout-off);
+                    &:hover {
+                        @include sprite($icon-logout-on);
+                    }
+                }
+            }
+        }
+        .direct {
+            padding: 10px 30px;
+            margin: 0 0 30px;
+            background: #333;
+            > * {
+                display: inline-block;
+            }
+            span {
+                color: #fff;
+                font-size: 15px;
+                @include fontLight;
+            }
+            .check_dx {
+                padding: 0 0 0 10px;
+                label {
+                    display: block;
+                    position: relative;
+                    width: 55px;
+                    height: 22px;
+                    input {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        width: 55px;
+                        height: 22px;
+                        opacity: 0.0001;
+                        cursor: pointer;
+                        & + i {
+                            display: block;
+                            @include sprite($btn-dx-off);
+                        }
+                        &:checked + i {
+                            @include sprite($btn-dx-on);
+                        }
+                        &:disabled {
+                            cursor: default;
+                        }
+                        &:disabled + i {
+                            @include sprite($btn-dx-disabled);
+                            cursor: default;
+                        }
+                    }
+                }
+            }
+            .wide {
+                display: inline-block;
+            }
+            .narrow {
+                display: none;
+            }
+        }
+        .list {
+            padding: 0 0 0 30px;
+            li {
+                position: relative;
+                margin: 4px 0 0;
+                &:first-child {
+                    margin: 0;
+                }
+                .text {
+                    display: inline-block;
+                    line-height: 26px;
+                    margin: -3px 0 0 10px;
+                    span {
+                        font-size: 14px;
+                        &.left {
+                            padding: 0 7px 0 0;
+                            color: #9e9e9e;
+                            //font-weight: bold;
+                        }
+                        &.color1 {
+                            color: #958bf6;
+                        }
+                    }
+                }
+                i {
+                    position: relative;
+                    display: inline-block;
+                    width: 31px;
+                    height: 31px;
+                }
+                &.active {
+                    i {
+                        &:after {
+                            content: "";
+                            position: absolute;
+                            right: -2px;
+                            top: -2px;
+                            display: block;
+                            width: 10px;
+                            height: 10px;
+                            border-radius: 50%;
+                            background: #d03c55;
+                        }
+
+                    }
+                }
+            }
+            &.top {
+                li {
+                    $icons: 8;                    
+                    @for $icon from 1 through $icons {
+                        &:nth-child(#{$icon}) {
+                            i {
+                                background: url(../img/launcher/icon_top_0#{$icon}.png) no-repeat 0 0;
+                            }
+                        }                        
+                    }
+                }
+            }
+            &.pc {
+                padding: 5px 0 5px 30px;
+                margin: 30px 0;
+                background: #333;
+                &.fold {
+                    li {
+                        padding: 0;
+                        &:not(#foldPc) {
+                            overflow: hidden;
+                        }
+                        #pcAccodian {
+                            position: absolute;
+                            right: 0;
+                            top: 0;
+                            display: block;
+                            @include sprite($icon-plus);
+                        }
+                    }
+                }
+                li {
+                    padding: 4px 0 0;
+                    $icons: 4;                    
+                    @for $icon from 1 through $icons {
+                        &:nth-child(#{$icon}) {
+                            i {
+                                cursor: pointer;
+                                background: url(../img/launcher/icon_pc_0#{$icon}.png) no-repeat 0 0;
+                            }
+                        }                        
+                    }
+                    &#foldPc {
+                        padding: 0;
+                    }
+                    i.icon-plus {
+                        display: block;
+                        float: right;
+                        margin: 3px 12px 0 0;
+                        @include sprite($icon-minus);
+                    }
+                }
+            }
+            &.bottom {
+                //cursor: pointer;
+                li {
+                    $icons: 3;                    
+                    @for $icon from 1 through $icons {
+                        &:nth-child(#{$icon}) {
+                            i {
+                                background: url(../img/launcher/icon_bottom_0#{$icon}_on.png) no-repeat 0 0;
+                            }
+                        }                        
+                    }
+                    &:hover {                 
+                        @for $icon from 1 through $icons {
+                            &:nth-child(#{$icon}) {
+                                i {
+                                    background: url(../img/launcher/icon_bottom_0#{$icon}_on.png) no-repeat 0 0;
+                                }
+                            }                        
+                        }
+                    }
+                    .text {                        
+                        color: #9e9e9e;
+                        //font-weight: bold;
+                    }
+                }
+            }
+        }
+        .btn_fold {
+            position: absolute;
+            right: -26px;
+            top: 45%;
+            //z-index: 2;
+            width: 25px;
+            height: 42px;
+            overflow: hidden;
+            cursor: pointer;
+            i {
+                @include noText();
+            }
+            .icon-fold {
+                @include sprite($icon-fold);
+            }
+            .icon-unfold {
+                display: none;
+                @include sprite($icon-unfold);
+            }
+            &.on {
+                .icon-fold {
+                    display: none;
+                }
+                .icon-unfold {
+                    display: block;
+                }
+            }
+        }
+        .sns_wrap {
+            position: absolute;
+            //position: fixed;
+            left: 0;
+            bottom: 0;
+            //width: 265px;
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            border-top: 1px solid #333;
+            box-sizing: border-box;
+            background: #000;
+            li {
+                display: inline-block;
+                width: 18px;
+                height: 21px;
+                opacity: 0.7; 
+                padding: 0 8px;   
+                $sns: 5;
+                @for $i from 1 through $sns {
+                    &:nth-child(#{$i}) {
+                        background: url(../img/launcher/icon_0#{$i}.png) no-repeat center 50%;
+                    }
+                }
+                &:hover {
+                    opacity: 1;
+                }
+                a {                    
+                    @include noText();  
+                }
+            }
+        }
+    }
+    #content {
+        position: relative;
+        /*width: 100%;
+        height: 100%;*/
+        //height: calc(100% - 35px);
+        .progress_wrap {
+            padding: 60px 56px 25px 59px;
+            background: rgba(0,0,0,0.5);
+            overflow: hidden;
+            border-bottom: 1px solid #333;
+            .menu {
+                float: left;
+                margin: 10px 0 0;
+                li {
+                    display: inline-block;
+                    padding: 4px 0 0;
+                    a {
+                        font-size: 16px;
+                        padding: 0 0 2px;
+                        margin: 0 12px;
+                        color: #fff;
+                        //color: #707070;
+                        &:hover {
+                            border-bottom: 1px solid #fff;
+                        }
+                    }
+                    &:first-child {
+                        margin-left: 0;
+                    }
+                }
+            }
+            .progress {
+                float: right;
+                > .bar_wrap {
+                    overflow: hidden;
+                    width: 700px;
+                    text-align: right;
+                    > div {
+                        display: inline-block;
+                        margin: 0 0 0 14px;
+                    }
+                    .volume {                            
+                        height: 50px;
+                        margin-left: 0;
+                        padding: 5px 0;
+                        box-sizing: border-box;
+                        p {
+                            font-size: 12px;
+                            line-height: 20px;
+                            &.white {
+                                color: #fff;
+                            }
+                            &.grey {
+                                color: #707070;
+                            }
+                            &.line1 {
+                                line-height: 40px;
+                            }
+                        }
+                    }
+                    .per {
+                        font-size: 35px;
+                        font-weight: bold;
+                        color: #fff;
+                        line-height: 40px;
+                        padding: 5px 0 8px;
+                        box-sizing: border-box;
+                    }
+                    .bar {
+                        overflow: hidden;
+                        border-radius: 5px;
+                        .gauge {
+                            position: relative;
+                            width: 250px;
+                            height: 50px;
+                            overflow: hidden;
+                            border-radius: 5px;
+                            &:before {
+                                content: "";
+                                position: absolute;
+                                left: 0;
+                                top: 0;
+                                width: 100%;
+                                height: 100%;
+                                display: block;
+                                box-sizing: border-box;
+                                background: #313131;
+                                border: 1px solid #535353;
+
+                            }
+                            &:hover {
+                                .bg {
+                                    opacity: 1;
+                                }
+                            }
+                            &.stop {
+                                .bg {
+                                    background: #9f9f9f !important;
+                                }
+                            }
+                            .bg {
+                                position: relative;
+                                height: 100%;
+                                overflow: hidden;
+                                opacity: 0.9;
+                                &#checking {
+                                    background: #333;
+                                }
+                                $bgs: (install, installing, update, updating, start);
+                                @each $bg in $bgs {
+                                    &##{$bg} {
+                                        background: url("../img/launcher/bg_#{$bg}.png") repeat;
+                                    }
+                                }
+                                &:before {
+                                    content: "";
+                                    position: absolute;
+                                    left: 0;
+                                    top: 0;
+                                    display: block;
+                                    width: 250px;
+                                    height: 50px;
+                                    background: url("../img/launcher/bar_blur.png") no-repeat center top;
+                                }
+                                &:after {
+                                    content: "";
+                                    position: absolute;
+                                    left: 0;
+                                    top: 0;
+                                    display: block;
+                                    width: 250px;
+                                    height: 50px;
+                                    background: url("../img/launcher/bar_line.png") no-repeat center top;
+                                    opacity: 0.5;
+                                }
+                            }
+                            p {
+                                position: absolute;
+                                width: 100%;
+                                text-align: center;
+                                top: 0;
+                                left: 0;
+                                color: #fff;
+                                line-height: 50px;
+                                font-size: 20px;
+                                cursor: pointer;
+                                i {
+                                    display: inline-block;
+                                    margin-top: -3px;
+                                    &.icon-ing {
+                                        @include sprite($ico-ing);
+                                    }
+                                    &.icon-stop {
+                                        @include sprite($ico-stop);
+                                    }
+                                }
+                            }
+                            .bg#checking + p {
+                                cursor: default;
+                            }
+                            /*버튼 애니메이션*/
+                            .bg[button-option=stop] {
+                                background: #9f9f9f !important;
+                            }
+                            .bg[button-option=ing] { 
+                                @keyframes ing {
+                                    0% {
+                                        transform: translateX(-124px);
+                                        transition: none;
+                                    }
+                                    70% {
+                                        transform: translateX(250px);
+                                        transition: none;
+                                    }
+                                    100% {
+                                        transform: translateX(250px);
+                                        transition: none;
+                                    }
+                                }    
+                                transition: all 0.2s ease-in-out;
+                                &:after {
+                                    content: none;
+                                }
+                                &:before {
+                                  content: "";
+                                  @include sprite($bg-btn-effect);
+                                  display: block;
+                                  position: absolute;
+                                  top: 0;
+                                  left: 0;
+                                  transform: translateY(0);
+                                  transition: none;
+                                  animation: ing 2s infinite;
+                                }
+                            }
+                            .bg[button-option=click] { 
+                                @keyframes click {
+                                    0% {
+                                        transform: scale(0.1, 0.1);
+                                        transition: none;
+                                        opacity: 0.3;
+                                    }
+                                    83% {
+                                        transform: scale(10,10);
+                                        transition: none;
+                                        opacity: 0;
+                                    }
+                                    100% {
+                                        transform: scale(10,10);
+                                        transition: none;
+                                        opacity: 0;
+                                    }
+                                    /*100% {
+                                        transform: scale(0.1, 0.1);
+                                        transition: none;
+                                        opacity: 0;
+                                    }*/
+                                }    
+                                transition: all 0.2s ease-in-out;
+                                &:after {
+                                    content: none;
+                                }
+                                &:before {
+                                  content: "";
+                                  @include sprite($bg-btn-effect2);
+                                  display: block;
+                                  position: absolute;
+                                  top: -15px;
+                                  left: 75px;
+                                  //top: 0;
+                                  //left: 0;
+                                  transform: translateY(0);
+                                  transition: none;
+                                  animation: click 3s infinite;
+                                }
+                            }
+                            /*//버튼 애니메이션*/
+                        }
+                    }
+                }
+            }
+        }
+        #blocks {
+            height: 100%;
+            padding: 136px 0 0 50px;
+            margin: -136px 0 0;
+            box-sizing: border-box;
+            //border: 2px solid red;
+            //height: calc(100% - 136px) !important;
+            //padding: 0 0 0 50px;
+            overflow: hidden;
+            #logo {
+                text-align: right;
+                padding: 45px 27px 25px 60px;
+            }
+            .trial {
+                display: none;
+                padding: 0 0 10px 5px;
+                margin: 0 auto;
+                color: #aaa;
+                box-sizing: border-box;
+                .icon-question2 {
+                    position: relative;
+                    @include sprite($icon-question2);
+                    margin: 0 0 0 2px;
+                    cursor: pointer;
+                    div {
+                        display: none;
+                        position: absolute;
+                        left: 27px;
+                        top: -21px;
+                        @include sprite($bg-tooltip);
+                        z-index: 1;
+                        box-sizing: border-box;
+                        padding: 11px 0 0 24px;
+                        font-size: 14px;
+                    }
+                    &:hover {
+                        div {
+                            display: block;
+                        }
+                    }
+                }
+            }
+            #content-blocks {
+                margin: 0 auto;
+                li {
+                    float: left;
+                    width: 480px;
+                    margin: 0 8px 8px 0;
+                    border-radius: 10px;
+                    border: 1px solid rgba(250,250,250,0.1);
+                    box-sizing: border-box;
+                    overflow: hidden;
+                    background: #1b1b1b;
+                    &:hover {
+                        border: 1px solid rgba(250,250,250,0);
+                        iframe {
+                            -webkit-transform: scale(1.05);
+                            -moz-transform: scale(1.05);
+                            -ms-transform: scale(1.05);
+                            -o-transform: scale(1.05);
+                        }
+                        img {
+                            -webkit-transform: scale(1.05);
+                            -moz-transform: scale(1.05);
+                            -ms-transform: scale(1.05);
+                            -o-transform: scale(1.05);
+                        }
+                    }
+                    iframe {
+                        width: 480px;
+                        height: 268px;
+                        -webkit-transition: transform .3s;
+                        -moz-transition: transform .3s;
+                        -ms-transition: transform .3s;
+                        -o-transition: transform .3s;
+                        transition: transform .3s;
+                    }
+                    img {
+                        width: 100%;
+                        -webkit-transition: transform .3s;
+                        -moz-transition: transform .3s;
+                        -ms-transition: transform .3s;
+                        -o-transition: transform .3s;
+                        transition: transform .3s;
+                    }
+                    .title {
+                        display: block;
+                        color: #fff;
+                        font-size: 16px;
+                        padding: 15px 15px 6px;
+                    }
+                    .desc {
+                        color: #707070;
+                        padding: 0 15px 6px;
+                    }
+                    .date {
+                        padding: 0 15px 15px;
+                        .color {
+                            padding: 0 10px 0 0;
+                        }
+                        .no-color {
+                            color: #a0a0a0;
+                        }
+                    }
+                }
+            }
+            .copyright {
+                clear: both;
+                padding: 60px 0 15px;
+                font-size: 12px;
+                letter-spacing: -0.2;
+                color: #fff;
+                text-align: center;
+                span {
+                    font-size: 12px;    
+                    vertical-align: baseline;                
+                }
+            }
+        }
+        .load {
+            height: calc(100% - 136px) !important;
+            padding: 0 0 0 30px;
+            overflow: hidden;
+            .wrap1 {
+                display: table;
+                width: 100%;
+                height: 100%;
+                .wrap2 {
+                    display: table-cell;
+                    text-align: center;
+                    vertical-align: middle;
+                    .wrap {
+                        display: inline-block;
+                        padding: 25px 40px;
+                        background: rgba(0,0,0,0.7);
+                        text-align: center;
+                        border-radius: 10px;
+                        overflow: hidden;
+                        .text-wrap {
+                            padding: 0 0 12px;
+                            .icon-loading {
+                                display: inline-block;
+                                width: 31px;
+                                height: 31px;
+                                margin: 0 15px 0 0;
+                                border-radius: 50%;
+                                background: url(../img/launcher/loading_01.gif) no-repeat 0 0;
+                            }
+                            span {
+                                display: inline-block;
+                                color: #fff;
+                            }
+                            p {
+                                color: #fff;
+                            }
+                        }
+                        .btn-wrap {
+                            padding: 0;
+                            background: none;
+                            button {
+                                color: #fff;
+                                background: #486ab4;
+                                border-radius: 5px;
+                                padding: 10px 20px 12px;
+                                &:hover {
+                                    background: #5177c7;
+                                }
+                                .btn-refresh {
+                                    @include sprite($btn-rfrsh);
+                                    margin: 0 5px 0 0;
+                                }
+                                span {
+                                    font-size: 13px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    #toast {
+        position: absolute;
+        right: -300px;
+        //right: 15px;
+        bottom: 15px;
+        width: 350px;
+        li {
+            position: relative;
+            width: 350px;
+            //height: 70px;
+            margin: 5px 0 0;
+            padding: 13px 20px 13px 20px;
+            overflow: hidden;
+            background: #1b1b1b;
+            border-radius: 8px;
+            box-sizing: border-box;
+            /**/top: 300px; 
+            opacity: 0;
+            &:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                display: block;
+                width: 8px;
+                height: 100%;
+                background: #be9b56;
+            }
+            .notice {
+                position: relative;
+                color: #fff;
+                padding: 0 0 0 27px;
+                &:before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    top: 1px;
+                    display: block;
+                    @include sprite($icon-toast);
+                }
+            }
+            .date {
+                color: #707070;
+                padding: 0 0 0 27px;
+            }
+            .close {
+                position: absolute;
+                right: 0;
+                top: 0;
+                padding: 8px;
+                cursor: pointer;
+                opacity: 0.5;
+                @include noText();
+                span {
+                    display: block;
+                    @include sprite($icon-toast-close);
+                }
+            }
+            &:hover {
+                .close {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+    .dimmed {
+        //display: none;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+        z-index: 5;
+    }
+    .modal {
+        //display: none;
+        position: fixed;
+        left: 300px;
+        top: 100px;
+        width: 600px;
+        background: #333;
+        border-radius: 10px;
+        overflow: hidden;
+        z-index: 5;
+        .text-wrap {
+            padding: 26px 30px;
+            box-sizing: border-box;
+            color: #a0a0a0;
+            .title, .sub-title, .text {
+                letter-spacing: -0.5px;
+                font-weight: normal;
+            }
+        }
+        .btn-wrap {
+            padding: 20px;
+            background: #1b1b1b;
+            text-align: center;
+            button {
+                color: #fff;
+                background: #4b66ba;
+                border-radius: 5px;
+                padding: 8px 39px 9px;
+                &:hover {
+                    background: #5177c7;
+                }
+            }
+            label {
+                display: block;
+                position: absolute;
+                left: 20px;
+                bottom: 30px;
+                color: #a0a0a0;
+                text-align: left;
+                input {
+                    position: absolute;
+                    left: -3px;
+                    top: 2px;
+                    width: 14px;
+                    height: 14px;
+                    opacity: 0.0001;
+                    cursor: pointer;
+                    & + i {
+                        display: inline-block;
+                        @include sprite($bg-checkbox-off);
+                    }
+                    &:checked + i {
+                        @include sprite($bg-checkbox-on);
+                    }
+                }
+                span {
+                    padding: 0 0 0 4px;
+                }
+            }
+        }
+        .close-pop {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 13px;
+            background: none;
+            opacity: 0.7;
+            &:hover {
+                opacity: 1;
+            }
+            i {
+                @include sprite($icon-pop-close);
+            }
+        }
+        &#modal-notice, &#modal-notice-text {
+            max-height: 650px;
+            .modal-notice-wrap {
+                height: 570px;
+                .img-wrap {
+                    position: relative;
+                }
+                .text-wrap {
+                    position: relative;
+                    padding: 30px;
+                    .title {
+                        display: block;
+                        color: #fff;
+                        font-size: 16px;
+                        margin: 0 0 15px;
+                        a {
+                            font-size: 16px;
+                            .icon-link {
+                                margin: -4px 0 0 9px;
+                                @include sprite($icon-link-off);
+                            }
+                            &:hover {
+                                .icon-link {
+                                    @include sprite($icon-link-on);
+                                }
+                            }
+                        }
+                    }
+                    .sub-title {
+                        display: block;
+                        margin: 0 0 15px;
+                        .color {
+                            margin: 0 10px 0 0;
+                        }
+                    }
+                    .text {
+                        color: #a0a0a0;
+                    }
+                }
+                /*.img-wrap + .text-wrap {
+                    .link {
+                        position: absolute;
+                        left: 30px;
+                        top: -45px;
+                    }
+                }*/
+                .mCSB_inside > .mCSB_container {
+                    margin-right: 0px;
+                }
+                .mCSB_scrollTools {
+                    width: 5px;
+                }
+                .btn-wrap {
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    width: 100%;
+                    box-sizing: border-box;
+                }
+            }
+        }
+        &#modal-notice-text {
+            height: 425px;
+            .modal-notice-wrap {
+                height: 353px;
+            }
+        }
+        &#modal-check, &#modal-install {
+            text-align: center;
+            .text-wrap {
+                .icon-exclamation {
+                    @include sprite($icon-exclamation);
+                    text-align: center;
+                    margin: 15px auto;
+                }
+                .title {
+                    display: block;
+                    margin: 15px 0 25px;
+                    color: #fff;
+                }
+                .text {
+                    .table {
+                        margin: 15px 0 0;
+                        text-align: left;
+                        li {
+                            border: 1px solid #000;
+                            border-top: 0;
+                            &:first-child {
+                                border-top: 1px solid #000;
+                            }
+                            em {
+                                //display: inline-block;
+                                display: table-cell;
+                                width:  100px;
+                                padding: 10px;
+                                background: #000;
+                            }
+                            span {
+                                //display: inline-block;
+                                display: table-cell;
+                                padding: 10px;
+                            }
+                        }
+                    }
+                    .border {
+                        height: 45px;
+                        padding: 0 15px;
+                        margin: 12px 0;
+                        white-space: nowrap;
+                        overflow: visible;
+                        width: 500px;
+                        border: 1px solid #6d6d6d;
+                        background: #000;
+                        .border-wrap {
+                            padding: 12px 0 0;
+                            text-align: left;
+                            font-size: 13px;
+                        }
+                        .mCSB_horizontal.mCSB_inside > .mCSB_container {
+                            margin-bottom: 12px;
+                        }
+                    }
+                    p {
+                        vertical-align: baseline;
+                        span {
+                            margin: 0 0 0 6px;
+                            font-weight: bold;
+                            vertical-align: baseline;
+                            &.white {
+                                color: #fff;
+                            }
+                            &.red {
+                                color: #ea4444;
+                            }
+                            &.slash {
+                                margin: 0 6px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &#modal-check {
+            .text-wrap {
+                .text {
+                    letter-spacing: -1px;
+                }
+            }
+        }
+        &#modal-lv35 {
+            .blue {
+                color: #6b90dd;
+            }
+            .orange {
+                color: #c79054;
+            }
+            .blue-bg {
+                background: #486ab4;
+                &:hover {
+                    background: #5177c7;
+                }
+            }
+            .orange-bg {
+                background: #aa7f50;
+                &:hover {
+                    background: #bb8c58;
+                }
+            }
+            .top-wrap {
+                padding: 24px 30px;
+                background: #1b1b1b;
+                color: #fff;
+                font-size: 20px;
+            }
+            .text-wrap {
+                text-align: center;
+                .title {
+                    color: #fff;
+                    font-size: 16px;
+                    vertical-align: baseline;
+                    span {
+                        vertical-align: baseline;
+                    }
+                }
+                .text {
+                    > p {
+                        margin: 15px 0;
+                        font-size: 16px;
+                    }
+                    .choice {
+                        li {
+                            display: inline-block;
+                            width: 48%;
+                            &:first-child {
+                                margin-right: 2%;
+                            }
+                            .top {
+                                color: #fff;
+                                background: #000;
+                                padding: 10px 0;
+                                font-size: 13px;
+                            }
+                            .middle {
+                                display: table;
+                                width: 100%;
+                                > div {
+                                    display: table-cell;
+                                    height: 192px;
+                                    padding: 20px;
+                                    vertical-align: middle;
+                                    border-left: 1px solid #000;
+                                    border-right: 1px solid #000;
+                                    p {
+                                        font-size: 13px;
+                                        letter-spacing: -0.5px;
+                                        &:first-child + p {
+                                            margin: 20px 0 0;
+                                        }
+                                    }
+                                    .confirm {
+                                        display: inline-block;
+                                        padding: 8px 15px;
+                                        margin: 12px 0 0;
+                                        border-radius: 5px;
+                                        background: #535353;
+                                        color: #fff;
+                                        &:hover {
+                                            background: #626262;
+                                        }
+                                    }
+                                }
+                            }
+                            > button {
+                                display: block;
+                                width: 100%;
+                                text-align: center;
+                                padding: 15px;
+                                color: #fff;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &#modal-closed {
+            width: 250px;
+            height: 230px;
+            .text-wrap {
+                .icon-question{
+                    @include sprite($icon-question);
+                    margin: 33px auto 12px;
+                }
+                p {
+                    font-size: 13px;
+                    color: #fff;
+                    text-align: center;
+                }
+            }
+            .btn-wrap {
+                background: transparent;
+                button {
+                    //padding: 8px 36px 9px;
+                    &:last-child {
+                        margin-left: 4px;
+                        background: #535353;
+                        &:hover {
+                            background: #626262;
+                        }
+                    }
+                }
+            }
+        }
+        &#modal-set {
+            width: 850px;
+            height: 636px;
+            letter-spacing: -0.5px !important;
+            border: 1px solid #313131;
+            box-sizing: border-box;
+            .top-wrap {
+                padding: 21px 30px;
+                background: #1b1b1b;
+                color: #fff;
+                font-size: 20px;
+                .icon-setting {
+                    display: inline-block;
+                    margin-right: 7px;
+                    margin-top: -5px;
+                    @include sprite ($icon-setting);
+                }
+            }
+            .view-wrap {
+                display: flex;
+                border-top: 1px solid #313131;
+                border-bottom: 1px solid #313131;
+                .tab-box {
+                    width: 180px;
+                    height: 502px;
+                    background: #1b1b1b;
+                    .tab li{
+                        border-bottom: 1px solid #313131;
+                        position: relative;
+                        button {
+                            width: 100%;
+                            padding: 21px 25px;
+                            color:#a0a0a0;
+                            text-align: left;
+                            outline: none;
+                            background: transparent;
+                            font-size: 16px;
+                        }
+                        &.on button {
+                            color: #fff;
+                        }
+                        &.on:after {
+                            content: "";
+                            position: absolute;
+                            top: 25px;
+                            right: -7px;
+                            width: 0;
+                            height: 0;
+                            border-top: 7px solid transparent;
+                            border-bottom: 7px solid transparent;
+                            border-left: 7px solid #1b1b1b;
+                        }
+                    }
+                }
+                #set-type {
+                    flex: auto;
+                    .text-wrap {
+                        padding: 20px 30px;
+                    }
+                    .title {
+                        display: block;
+                        color:#fff;
+                        margin-bottom: 5px;
+                    }                    
+                    .txt-blue {
+                        color: #749cf1;
+                        font-size: 13px;
+                        vertical-align: baseline;
+                    }
+                    p {
+                        font-size: 13px;
+                    }
+                    .set1 {
+                        .select-box {
+                            position: relative;
+                            width: 260px;
+                            margin: 5px 0 30px;
+                            span {
+                                display: block;
+                                padding: 10px;
+                                border: 1px solid #535353;
+                                background: #1b1b1b;
+                                cursor: pointer;
+                            }
+                            ul {
+                                display: none;
+                                position: absolute;
+                                top:0;
+                                left:0;
+                                width: 258px;
+                                border: 1px solid #535353;
+                                background: #1b1b1b;
+                                li {
+                                    //padding: 6px 10px;
+                                    button {
+                                        display: block;
+                                        width: 100%;
+                                        height: 100%;
+                                        text-align: left;
+                                        padding: 6px 10px;
+                                        color:#a0a0a0;
+                                        background: none;
+                                    }
+                                    &.on button {
+                                        color: #fff;
+                                    }
+                                }
+                            }
+                            i {
+                                position: absolute;
+                                top: 16px;
+                                right: 10px;
+                                cursor: pointer;
+                                @include sprite($bg-select-off);
+                                z-index: 9;
+                                &.on {
+                                    @include sprite($bg-select-on);
+                                }
+                            }
+                        }
+                        .btn-box {
+                            li {
+                                display: flex;
+                                flex-direction: row;
+                                margin: 7px 0 10px 0;
+                                .btn {
+                                    margin-right: 14px;
+                                    button {
+                                        min-width: 160px;
+                                        padding: 10px 0;
+                                        color: #fff;
+                                        border: 1px solid #535353;
+                                        background: transparent;
+                                        &:hover {
+                                            background: #535353;
+                                        }
+                                    }
+                                }
+                                .text{
+                                    padding: 10px 0;
+                                    font-size:13px;
+                                    input[type="checkbox"] {
+                                        display: none;
+                                        margin-right: 7px;
+                                        -webkit-appearance: none;
+                                        -moz-appearance: none;
+                                    }
+                                    label {
+                                        font-size: 13px;
+                                        &:before {
+                                            content: "";
+                                            display: inline-block;
+                                            width: 14px;
+                                            margin-right: 7px;
+                                            vertical-align: middle;
+                                            @include sprite($bg-overwrite-off);
+                                        }
+                                    }
+                                    input[type="checkbox"]:checked + label:before{
+                                        @include sprite($bg-overwrite-on);
+                                    }
+                                    .last-set {
+                                        color: #fff;
+                                        margin: 10px 0;
+                                        letter-spacing: 0;
+                                    }
+                                }
+                                &:first-child .text{
+                                    padding: 0;
+                                }
+                                &:last-child button {
+                                    background: #535353;
+                                }
+                            }
+                        }
+                    }
+                    .set2 {
+                        .border {
+                            height: 40px;
+                            padding: 0 15px;
+                            margin: 12px 0;
+                            white-space: nowrap;
+                            overflow: visible;
+                            width: 570px;
+                            border: 1px solid #6d6d6d;
+                            background: #000;
+                            .border-wrap {
+                                font-size: 13px;
+                                line-height: 40px;
+                            }
+                        }
+                        .btn-box {
+                            li {
+                                margin-bottom: 30px;
+                                p {
+                                    display: inline-block;
+                                }
+                                p + div{
+                                    margin-top: 5px;
+                                }
+                                /*.btn-setting {
+                                    @include sprite ($btn-setting-off);
+                                    outline: none;
+                                    vertical-align: middle;
+                                    margin-right: 10px;
+                                    background-color: transparent;
+                                    &.on {
+                                        @include sprite ($btn-setting-on);
+                                    }
+                                }*/
+                                .check_setting {
+                                    label {
+                                        display: inline-block;
+                                        position: relative;
+                                        input {
+                                            position: absolute;
+                                            left: 0;
+                                            top: 0;
+                                            width: 55px;
+                                            height: 22px;
+                                            opacity: 0.0001;
+                                            cursor: pointer;
+                                            & + i {
+                                                display: inline-block;
+                                                @include sprite($btn-setting-off);
+                                            }
+                                            & + i ~ .on {
+                                                display: none;
+                                            }
+                                            & + i + .on ~ .off {
+                                                display: inline-block;
+                                            }
+                                            &:checked + i {
+                                                @include sprite($btn-setting-on);
+                                            }
+                                            &:checked + i ~ .on {
+                                                display: inline-block;
+                                            }
+                                            &:checked + i ~ .off {
+                                                display: none;
+                                            }
+                                            &:disabled {
+                                                cursor: default;
+                                            }
+                                            &:disabled + i {
+                                                @include sprite($btn-dx-disabled);
+                                                cursor: default;
+                                            }
+                                        }
+                                        span {
+                                            display: inline-block;
+                                            margin: 0 0 0 6px;
+                                            font-size: 13px;
+                                            vertical-align: middle;
+                                        }
+                                    }
+                                    &.disabled {
+                                        label {
+                                            cursor: default;
+                                        }
+                                    }
+                                }
+                                .btn-refresh {
+                                    display: flex;
+                                    flex-direction: row;
+                                    button {
+                                        min-width: 160px;
+                                        padding: 10px 0;
+                                        margin-right: 15px;
+                                        color: #fff;
+                                        border: 1px solid #535353;
+                                        background: transparent;
+                                        &:hover {
+                                            background: #535353;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .set3 {
+                        p {
+                            margin: 4px 0 10px;
+                        }
+                        .title span {
+                            color: #749cf1;
+                        }
+                        .table {
+                            margin: 14px 0 0;
+                            text-align: left;
+                            li {
+                                border: 1px solid #000;
+                                border-top: 0;
+                                &:first-child {
+                                    border-top: 1px solid #000;
+                                }
+                                em {
+                                    display: inline-block;
+                                    width: 110px;
+                                    padding: 11px 10px;
+                                    background: #000;
+                                    font-size: 13px;
+                                }
+                                span {
+                                    display: inline-block;
+                                    min-width: 290px;
+                                    padding: 10px;
+                                    font-size: 13px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .btn-wrap {
+                padding: 12px 20px;
+                //display: flex;
+                display: block;
+                overflow: hidden;
+                .btn-wrap-left {
+                    //display: flex;
+                    float: left;
+                    .default-set {
+                        background: transparent;
+                        padding: 5px 15px;
+                        //margin: 5px 0;
+                        color:#4b66ba;
+                        opacity: 0.8;
+                        font-size: 16px;
+                        &:hover {
+                            opacity: 1;
+                        }
+                        &:before {
+                            content:"";
+                            display: inline-block;
+                            margin-right: 6px;
+                            margin-top: -4px;
+                            vertical-align: middle;
+                            @include sprite($icon-refresh-blue);
+                        }
+                    }
+                }
+                .btn-wrap-right {
+                    //display: flex;
+                    justify-content: flex-end;
+                    flex: auto;
+                    float: right;
+                    button {
+                        margin-left: 4px;
+                        &:nth-child(2) {
+                            background: #535353;
+                            &:hover {
+                                background: #626262;
+                            }
+                        }
+                        &:nth-child(3) {
+                            background: #1b1b1b;
+                            border: 1px solid #486ab4;
+                            &:disabled {
+                                border: 1px solid #535353;
+                                color: #535353;
+                                cursor: default;
+                            }
+                            /*&:hover {
+                                border: 1px solid #486ab4;
+                            }*/
+                        }
+                    }
+                }
+            }
+            .close-pop {
+                top: 15px;
+                right: 10px;
+            }
+        }
+        &#modal-loading, &#modal-fail {
+            width: auto;
+            height: auto;
+            padding: 40px 50px;
+            background: #000;
+            .text-wrap {
+                padding: 0 0 12px;
+                .icon-loading {
+                    display: inline-block;
+                    width: 31px;
+                    height: 31px;
+                    margin: 0 15px 0 0;
+                    background: url(../img/launcher/loading_01.gif) no-repeat 0 0;
+                }
+                span {
+                    display: inline-block;
+                    color: #fff;
+                }
+                p {
+                    color: #fff;
+                }
+            }
+            .btn-wrap {
+                padding: 0;
+                background: none;
+                .btn-refresh {
+                    @include sprite($btn-rfrsh);
+                    margin: 0 5px 0 0;
+                }
+            }
+        }
+    }
+}
+
+#not_found {
+    position: relative;
+    width: auto;
+    min-width: 400px;
+    max-width: 1360px;
+    height: 850px;
+    margin: 0 auto;
+    padding: 40px 0 0;
+    box-sizing: border-box;
+    background: url(../img/launcher/bg_404.png) no-repeat center 50%;
+    .center {
+        width: 400px;
+        height: 690px;
+        margin: 0 auto;
+        box-sizing: border-box;
+        //border: 2px solid #fff;
+        h2 {
+            margin: 0 auto;
+            text-indent: -9999px;
+            background: url(../img/launcher/logo_404.png) no-repeat center 50%;
+            width: 198px;
+            height: 53px;
+            margin: 120px auto 50px;
+        }
+        .box {
+            position: relative;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            width: 300px;
+            height: 300px;
+            box-sizing: border-box;
+            margin: 0 auto;
+            //background: #1b1b1b;
+            background: rgba(0,0,0,0.8);
+            border-radius: 10px;
+            color: #fff;
+            h3 {
+                font-weight: normal;
+            }
+            .home {
+                position: absolute;
+                left: 0;
+                bottom: 15px;
+                width: 100%;
+                text-align: center;
+                a {
+                    width: 44px;
+                    height: 44px;
+                    display: inline-block;
+                    background: url(../img/launcher/icon_checkhome_off.png) no-repeat center 50%;
+                    &:hover {
+                        background: url(../img/launcher/icon_checkhome_on.png) no-repeat center 50%;
+                    }
+                    span {                        
+                        @include noText();
+                    }
+                }
+            }
+        }
+    }
+    .copyright {
+        position: absolute;
+        left: 0;
+        bottom: 14px;
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+        text-align: center;
+        color: #707070;
+        letter-spacing: -1px;
+        span {
+            vertical-align: baseline;
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #not_found {
+        height: 690px;
+        overflow: hidden;
+        padding: 0;
+        border: 1px solid rgba(250,250,250,0.15);
+        .center {
+            h2 {
+                margin: 80px auto 30px;
+            }
+        }
+    }
+    .copyright {
+        font-size: 13px;
+        span {
+            font-size: 13px;
+        }
+    }
+}
